@@ -1,0 +1,217 @@
+﻿<Window x:Class="_420_14B_FX_A24_TP1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_420_14B_FX_A24_TP1"
+        mc:Ignorable="d"
+        Title="Gestion des réservations" Height="600" Width="1000" Loaded="Window_Loaded">
+
+
+        <TabControl Margin="10">
+            <!-- Onglet Recherche de Chambres -->
+        <TabItem Header="Création d'une">
+            <StackPanel >
+                <GroupBox Header="Disponibilités" Margin="5" Width="610" HorizontalAlignment="left">
+                    <StackPanel Margin="5">
+                        <StackPanel Orientation="Horizontal" Margin="0">
+
+                            <StackPanel Orientation="Horizontal" Margin="0,5,10,0">
+                                <Label Width="100">Date d'arrivée</Label>
+                                <DatePicker Name="dtpDateArrivee" Width="100"/>
+                            </StackPanel>
+
+
+                            <StackPanel Orientation="Horizontal" Margin="0,5,10,0">
+                                <Label Width="100">Date de départ</Label>
+                                <DatePicker Name="dtpDateDepart" Width="100"/>
+                            </StackPanel>
+                            <Button Name="btnRechercheChambre" Content="Rechercher" Width="75" HorizontalAlignment="Left" Margin="5,5,0,0" Click="btnRechercheChambre_Click"/>
+                            <Button Name="btnEffacerRecherche" Content="Effacer" Width="75" HorizontalAlignment="Right" Margin="5,5,0,0" Click="btnEffacerRecherche_Click"/>
+
+
+                        </StackPanel>
+
+                 
+
+                        <StackPanel Orientation="Horizontal" Margin="0">
+                            <Label FontWeight="Bold" Width="75">Numéro</Label>
+                            <Label FontWeight="Bold" Width="130">Type</Label>
+                            <Label FontWeight="Bold" Width="100">Prix par nuit</Label>
+                        </StackPanel>
+                        <!-- Liste des chambres disponibles -->
+                        <ListBox Name="lstChambres" Margin="0,0,0,0" Height="150" FontFamily="Consolas" Width="580" HorizontalAlignment="Left" SelectionChanged="lstChambres_SelectionChanged">
+                            <!-- Les résultats de la recherche apparaîtront ici --> 
+                        </ListBox>
+
+                    </StackPanel>
+                </GroupBox>
+                <StackPanel Margin="5">
+
+                    <StackPanel Orientation="Horizontal">
+                        <GroupBox Header="Information du client" Margin="0,0,5,0">
+                            <StackPanel Margin="5" Orientation="Horizontal">
+
+                                <!-- Information du client -->
+                                <StackPanel Orientation="Vertical" Margin="0,0,20,10">
+
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <Label Name="lblNom"  Width="75" >Nom</Label>
+                                        <TextBox Name="txtNom" Width="200"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <Label Name="lblPrenom" Width="75">Prénom</Label>
+                                        <TextBox Name="txtPrenom" Width="200" />
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <Label Name="lblCourriel" Width="75">Courriel</Label>
+                                        <TextBox Name="txtCourriel" Width="200" />
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <Label Name="lblTelephone" Width="75">Téléphone</Label>
+                                        <TextBox Name="txtTelephone" Width="200" />
+                                    </StackPanel>
+
+
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <Label Name="lblAdresse" Width="75">Adresse</Label>
+                                        <TextBox Name="txtAdresse" Width="200" Height="50" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Information sur la chambre" Margin="40,0,0,0">
+                            <StackPanel Margin="5">
+
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <Label Name="lblNumero"  Width="75" >Numéro</Label>
+                                    <TextBox Name="txtNumero" Width="100" IsReadOnly="True"/>
+                                </StackPanel>
+
+
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <Label Name="lblType"  Width="75" >Type</Label>
+                                    <TextBox Name="txtType" Width="100"  IsReadOnly="True"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <Label Name="lblDateArrivee"  Width="75" >Date arrivée</Label>
+                                    <TextBox Name="txtDateArrivee" Width="100"  IsReadOnly="True"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <Label Name="lblDateDepart"  Width="75" >Date départ</Label>
+                                    <TextBox Name="txtDateDepart" Width="100"  IsReadOnly="True"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <Label Name="lblPrix" Width="75">Prix par nuit</Label>
+                                    <TextBox Name="txtPrixParNuit" Width="100"  IsReadOnly="True"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <Label Width="75">Total</Label>
+                                    <TextBox Name="txtTotal" Width="150"  IsReadOnly="True"/>
+                                </StackPanel>   
+
+
+
+                            </StackPanel>
+                        </GroupBox>
+                   
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
+                        <Button Name="btnCreerReservation" Content="Créer" Width="75" HorizontalAlignment="Left" Margin="5,5,0,0" Click="btnCreerReservation_Click"/>
+                        <Button Name="btnEffacerReservation" Content="Effacer" Width="75" HorizontalAlignment="Right" Margin="5,5,0,0" Click="btnEffacerReservation_Click"/>
+
+                    </StackPanel>
+
+
+
+                </StackPanel>
+            </StackPanel>
+
+
+        </TabItem>
+        <!-- Onglet Gestion des Réservations -->
+        <TabItem Header="Recherche de Réservations">
+            <StackPanel>
+                <StackPanel Margin="10">
+                    <TextBlock Text="Recherche d'une réservation" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,10">
+                      
+
+                        <!-- Rechercher par téléphone -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                            <TextBlock Text="Téléphone du client : " VerticalAlignment="Center"/>
+                            <TextBox Name="txtRechercheTelephone" Height="25" Width="150" Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Recherche par courriel -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                            <TextBlock Text="Courriel du client: " VerticalAlignment="Center"/>
+                            <TextBox Name="txtRechercheCourriel" Height="25" Width="150" Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Bouton de recherche -->
+                        <Button Name="btnRechercherReservation" Content="Rechercher" Width="100" Margin="20,0,0,0" Click="btnRechercherReservation_Click"/>
+
+                        <!-- Bouton qui effacer le formulaire de recherche -->
+                        <Button Name="btnEffacerRechercheReservation" Content="Effacer" Width="100" Margin="20,0,0,0" Click="btnEffacerRechercheReservation_Click" />
+
+                    </StackPanel>
+
+
+
+                    <StackPanel Orientation="Horizontal" Margin="0">
+                        <Label FontWeight="Bold" Width="125">Client</Label>
+                        <Label FontWeight="Bold" Width="90">chambre</Label>
+                        <Label FontWeight="Bold" Width="100">Arrivée</Label>
+                        <Label FontWeight="Bold" Width="100">Départ</Label>
+                        <Label FontWeight="Bold" Width="150">Téléphone</Label>
+                        <Label FontWeight="Bold" Width="245">Courriel</Label>
+                        <Label FontWeight="Bold" Width="100">Total</Label>
+
+                    </StackPanel>
+
+                    <!-- Liste des réservation -->
+                    <ListBox Name="lstReservations" Margin="0,0,0,0" Height="150" FontFamily="Consolas">
+                        <!-- Les résultats de la recherche apparaîtront ici -->
+                    </ListBox>
+
+                    <!-- Bouton de supprimer -->
+                    <Button Name="btnSupprimerReservation" Click="btnSupprimerReservation_Click" HorizontalAlignment="Left" Content="Supprimer" Width="100" Margin="0,10,0,0"/>
+
+                </StackPanel>
+                <StackPanel>
+                    <GroupBox Header="Statistiques" >
+                        <StackPanel Margin="5">
+                           <!-- Total des réservations-->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                <Label VerticalAlignment="Center" Width="150">Total des réservations</Label>
+                                 <TextBox Name="txtTotalReservations" Height="25" Width="150" Margin="10,0,0,0" IsReadOnly="True"/>
+                            </StackPanel>
+                            <!-- Prix moyen des réservations-->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                <Label VerticalAlignment="Center"  Width="150">Prix Moyen</Label>
+                                <TextBox Name="txtPrixMoyenReservation" Height="25" Width="150" Margin="10,0,0,0" IsReadOnly="True"/>
+                            </StackPanel>
+                            <!-- Chambre la plus réservée-->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                <Label VerticalAlignment="Center"  Width="150">Chambre la plus réservée</Label>
+                                <TextBox Name="txtChambrePlusReservee" Height="25" Width="150" Margin="10,0,0,0" IsReadOnly="True"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                    </GroupBox>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+ 
+</Window>
