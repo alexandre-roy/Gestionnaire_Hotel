@@ -18,7 +18,16 @@ namespace _420_14B_FX_A24_TP1
     /// </summary>
     public partial class MainWindow : Window
     {
-       
+
+
+        #region CONSTANTES
+
+        const string CHEMIN_FICHIER_CHAMBRES = @"C:\data\420-14B-FX\TP1\chambres.csv";
+
+        const string CHEMIN_FICHIER_RESERVATIONS = @"C:\data\420-14B-FX\TP1\reservations.csv";
+
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();

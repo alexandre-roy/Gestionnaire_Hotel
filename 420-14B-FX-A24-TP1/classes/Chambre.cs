@@ -3,6 +3,7 @@ using _420_14B_FX_A24_TP1.enums;
 
 namespace _420_14B_FX_A24_TP1.classes
 {
+    
     /// <summary>
     /// Représente une chambre dans le système de gestion d'un hôtel.
     /// </summary>
@@ -20,9 +21,11 @@ namespace _420_14B_FX_A24_TP1.classes
         {
             get { return _numero; }
             set {
-                //Todo : Ajouter le formattage
-                if (value > 0)
-                _numero = value; 
+                //Todo : Ajouter la validation
+                if (value != 0)
+                {
+                    _numero = value;
+                }       
             }
         }
 
@@ -34,11 +37,11 @@ namespace _420_14B_FX_A24_TP1.classes
         {
             get { return _type; }
             set {
-                    if (Enum.IsDefined(typeof(TypeChambre), value))
-                    {
-                        _type = value;
-                    }
+                if (Enum.IsDefined(typeof(TypeChambre), value))
+                {
+                    _type = value;
                 }
+            }
         }
 
         /// <summary>
@@ -47,7 +50,12 @@ namespace _420_14B_FX_A24_TP1.classes
         public decimal PrixParNuit
         {
             get { return _prixParNuit; }
-            set { _prixParNuit = value; }
+            set {
+                if (value >= 0)
+                {
+                    _prixParNuit = value;
+                }
+            }
         }
 
         /// <summary>
