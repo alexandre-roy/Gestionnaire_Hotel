@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _420_14B_FX_A24_TP1.enums
 {
-    enum TypeChambre
+    public enum TypeChambre
     {
         Simple,
         Double,

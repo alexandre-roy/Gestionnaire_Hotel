@@ -1,4 +1,5 @@
-﻿
+﻿using System.Windows.Controls;
+using _420_14B_FX_A24_TP1.enums;
 
 namespace _420_14B_FX_A24_TP1.classes
 {
@@ -10,6 +11,7 @@ namespace _420_14B_FX_A24_TP1.classes
         // Champs privés
         private ushort _numero;
         private decimal _prixParNuit;
+        private TypeChambre _type;
 
         /// <summary>
         /// Obtient ou définit le numéro de la chambre.
@@ -17,8 +19,9 @@ namespace _420_14B_FX_A24_TP1.classes
         public ushort Numero
         {
             get { return _numero; }
-            set { 
+            set {
                 //Todo : Ajouter le formattage
+                if (value > 0)
                 _numero = value; 
             }
         }
@@ -27,6 +30,16 @@ namespace _420_14B_FX_A24_TP1.classes
         /// Obtient ou définit le type de la chambre (par exemple, Simple, Double, Suite).
         /// </summary>
         //Todo : Ajouter la propriété manquante
+        public TypeChambre Type
+        {
+            get { return _type; }
+            set {
+                    if (Enum.IsDefined(typeof(TypeChambre), value))
+                    {
+                        _type = value;
+                    }
+                }
+        }
 
         /// <summary>
         /// Obtient ou définit le prix par nuit de la chambre.
@@ -40,10 +53,15 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Initialise une nouvelle instance de la classe Chambre/>.
         /// </summary>
-       
-        
-        //Todo : Implémenter le constructeur avec paramèttres
 
+
+        //Todo : Implémenter le constructeur avec paramèttres
+        public Chambre(ushort _numero, decimal _prixParNuit, TypeChambre _type)
+        {
+            Numero = _numero;
+            PrixParNuit = _prixParNuit;
+            Type = _type;
+        }
 
         /// <summary>
         /// Retourne une chaîne de caractères représentant l'objet Chambre.
@@ -56,6 +74,4 @@ namespace _420_14B_FX_A24_TP1.classes
             throw new NotImplementedException();
         }
     }
-
-
 }
