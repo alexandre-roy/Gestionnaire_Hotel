@@ -43,7 +43,8 @@ namespace _420_14B_FX_A24_TP1.classes
 
         public GestionHotel(string cheminFichierChambres, string cheminFichierReservations) 
         {
-            ChargerChambres(cheminFichierChambres); 
+            ChargerChambres(cheminFichierChambres);
+            
         }
 
         #endregion
@@ -69,6 +70,27 @@ namespace _420_14B_FX_A24_TP1.classes
                 Chambres[i] = Chambre;
             }
         }
+
+        //private Chambre[] AjouterChambre(Chambre chambre, Chambre[] vectChambres)
+        //{
+        //    Chambre[] chambre1 = new Chambre[vectChambres.Length + 1];
+
+        //    Chambre nouvelleChambre = new Chambre(311, 3, (TypeChambre)1);
+
+        //    for (int i = 0; i < chambre1.Length; i++)
+        //    {
+        //        chambre1[i] = Chambres[i];
+
+        //        chambre1[chambre1.Length] = nouvelleChambre;
+        //    }
+
+        //    return chambre1;
+        //}
+
+        //private Chambre[] RechercherChambresDisponibles()
+        //{
+        //    return Chambres;
+        //}
 
         #endregion
     }
