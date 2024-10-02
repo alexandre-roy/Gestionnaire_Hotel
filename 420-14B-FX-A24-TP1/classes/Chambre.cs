@@ -64,11 +64,11 @@ namespace _420_14B_FX_A24_TP1.classes
 
 
         //Todo : Implémenter le constructeur avec paramèttres
-        public Chambre(ushort _numero, decimal _prixParNuit, TypeChambre _type)
+        public Chambre(ushort numero, decimal prixParNuit, TypeChambre type)
         {
-            Numero = _numero;
-            PrixParNuit = _prixParNuit;
-            Type = _type;
+            Numero = numero;
+            PrixParNuit = prixParNuit;
+            Type = type;
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// </returns>
         public override string ToString()
         {
-            throw new NotImplementedException();
+            return $"{Numero} {Type} {PrixParNuit}";
         }
     }
 }

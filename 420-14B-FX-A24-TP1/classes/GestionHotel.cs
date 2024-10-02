@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using _420_14B_FX_A23_TP1.classes;
+using _420_14B_FX_A24_TP1.enums;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace _420_14B_FX_A24_TP1.classes
 {
     public class GestionHotel
     {
-        
+
         #region ATTRIBUTS
 
         /// <summary>
@@ -25,20 +28,22 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Obtient la liste des chambres
         /// </summary>
-        public Chambre[] Chambre
+        public Chambre[] Chambres
         {
             get { return _chambres; }
             set { _chambres = value; }
         }
 
+              
+
         #endregion
+
 
         #region CONSTRUCTEURS
 
-        GestionHotel(string cheminFichierChambres, string cheminFichierReservations) 
+        public GestionHotel(string cheminFichierChambres, string cheminFichierReservations) 
         {
-            
-
+            ChargerChambres(cheminFichierChambres); 
         }
 
         #endregion
@@ -48,13 +53,26 @@ namespace _420_14B_FX_A24_TP1.classes
         private void ChargerChambres(string cheminFichierChambres)
         {
             string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierChambres);
+
+            Chambres = new Chambre[vectLignes.Length];          
+
+            for (int i = 1; i < vectLignes.Length; i++)
             {
-                for (int i = 0; i < vectLignes.Length; i++)
-                {
-                    Chambre[i] = vectLignes[i];
-                }
+                string[] detailsChambre = vectLignes[i].Split(';');
+
+                ushort numero = ushort.Parse(detailsChambre[0]);
+                decimal prix = decimal.Parse(detailsChambre[2]);
+                TypeChambre type = (TypeChambre)Enum.Parse(typeof(TypeChambre), detailsChambre[1]);
+
+                Chambre Chambre = new Chambre(numero, prix, type);
+
+                Chambres[i] = Chambre;
+            }
         }
 
         #endregion
     }
 }
+
+
+    

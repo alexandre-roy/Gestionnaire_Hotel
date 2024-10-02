@@ -22,25 +22,50 @@ namespace _420_14B_FX_A24_TP1
 
         #region CONSTANTES
 
-        const string CHEMIN_FICHIER_CHAMBRES = @"C:\data\420-14B-FX\TP1\chambres.csv";
+        public const string CHEMIN_FICHIER_CHAMBRES = @"C:\data\420-14B-FX\TP1\chambres.csv";
 
-        const string CHEMIN_FICHIER_RESERVATIONS = @"C:\data\420-14B-FX\TP1\reservations.csv";
+        public const string CHEMIN_FICHIER_RESERVATIONS = @"C:\data\420-14B-FX\TP1\reservations.csv";
 
         #endregion
 
+        #region ATTRIBUTS
+
+        /// <summary>
+        /// Hotel
+        /// </summary>
+        GestionHotel _gestionHotel;
+
+        #endregion
+
+        #region CONSTRUCTEURS
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        #endregion
+
+
+        #region MÉTHODES
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-           
+            _gestionHotel = new GestionHotel(CHEMIN_FICHIER_CHAMBRES, CHEMIN_FICHIER_RESERVATIONS);
 
+            AfficherListeChambres();
 
         }
 
- 
+        private void AfficherListeChambres()
+        {
+            lstChambres.Items.Clear();
+
+            for (int i = 0; i < _gestionHotel.Chambres.Length; i++)
+            {
+                lstChambres.Items.Add(_gestionHotel.Chambres[i]);
+            }
+        }
+
+
         private void btnEffacerRecherche_Click(object sender, RoutedEventArgs e)
         {
           
@@ -82,6 +107,7 @@ namespace _420_14B_FX_A24_TP1
         {
            
         }
+        #endregion
 
     }
 }
