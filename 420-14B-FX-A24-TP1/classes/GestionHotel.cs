@@ -64,7 +64,7 @@ namespace _420_14B_FX_A24_TP1.classes
         {
             string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierChambres);
 
-            Chambres = new Chambre[vectLignes.Length];          
+            Chambres = new Chambre[vectLignes.Length - 1];          
 
             for (int i = 1; i < vectLignes.Length; i++)
             {
@@ -96,7 +96,7 @@ namespace _420_14B_FX_A24_TP1.classes
         {
             string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierReservations);
 
-            Reservations = new Reservation[vectLignes.Length];
+            Reservations = new Reservation[vectLignes.Length - 1];
 
             for (int i = 1; i < vectLignes.Length; i++)
             {
@@ -115,32 +115,55 @@ namespace _420_14B_FX_A24_TP1.classes
 
                 Reservation Reservation = new Reservation(adresse, chambre, courriel, dateArrivee, dateDepart, nom, prenom, telephone);
 
-                Reservations[i] = Reservation;
+                Reservations[i - 1] = Reservation;
             }
         }
 
+        public Chambre[] AjouterChambre(Chambre chambre, Chambre[] vectChambres)
+        {
+            Chambre[] chambre1 = new Chambre[vectChambres.Length + 1];
 
+            for (int i = 0; i < vectChambres.Length; i++)
+            {
+                chambre1[i] = vectChambres[i];
 
-        //private Chambre[] AjouterChambre(Chambre chambre, Chambre[] vectChambres)
-        //{
-        //    Chambre[] chambre1 = new Chambre[vectChambres.Length + 1];
+                chambre1[vectChambres.Length] = chambre;
+            }
 
-        //    Chambre nouvelleChambre = new Chambre(311, 3, (TypeChambre)1);
+            return chambre1;
+        }
 
-        //    for (int i = 0; i < chambre1.Length; i++)
-        //    {
-        //        chambre1[i] = Chambres[i];
+        public Chambre[] RechercherChambresDisponibles(DateOnly dateArrivee, DateOnly dateDepart)
+        {
+            Chambre[] chambresDispo = new Chambre[Chambres.Length];
 
-        //        chambre1[chambre1.Length] = nouvelleChambre;
-        //    }
+            bool dispo = true;
 
-        //    return chambre1;
-        //}
+            for (int i = 0; i < Chambres.Length; i++)
+            {
+                for (int j = 0; j < Reservations.Length; j++)
+                {
+                    if (Chambres[i].Numero == Reservations[j].Chambre.Numero)
+                    {
+                        if (dateArrivee < Reservations[j].DateDepart && dateDepart > Reservations[j].DateArrivee)
+                        { 
+                            dispo = false;
+                        }
+                        else
+                        {
+                            dispo = true;
+                        }
+                    }
+                    if (dispo)
+                    {
+                        chambresDispo[i] = Chambres[i];
+                    }
+                }
 
-        //private Chambre[] RechercherChambresDisponibles()
-        //{
-        //    return Chambres;
-        //}
+            }
+            return chambresDispo;
+        }
+
 
         #endregion
     }

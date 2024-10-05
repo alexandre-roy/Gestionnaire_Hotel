@@ -145,6 +145,15 @@ namespace _420_14B_FX_A24_TP1.classes
             get { return CalculerTotal();  }
         }
 
+        /// <summary>
+        /// Obtient ou définit la chambre.
+        /// </summary>
+        public Chambre Chambre
+        {
+            get { return _chambre; }
+            set { _chambre = value; }
+        }
+
 
         #endregion
 
@@ -156,7 +165,7 @@ namespace _420_14B_FX_A24_TP1.classes
         public Reservation(string adresse, Chambre chambre, string courriel, DateOnly dateArrivee, DateOnly dateDepart, string nom, string prenom, string telephone)
         {
             Adresse = adresse;
-            _chambre = chambre;
+            Chambre = chambre;
             Courriel = courriel;
             DateArrivee = dateArrivee;
             DateDepart = dateDepart;
@@ -203,7 +212,7 @@ namespace _420_14B_FX_A24_TP1.classes
         public override string ToString()
         {
             string nomPrenomPadRight = $"{Nom}, {Prenom}".PadRight(21, ' ');
-            string chambrePadRight = $"{_chambre.Numero}".PadRight(10, ' ');
+            string chambrePadRight = $"{Chambre.Numero}".PadRight(10, ' ');
             string arriveePadRight = $"{DateArrivee}".PadRight(15, ' ');
             string departPadRight = $"{DateDepart}".PadRight(16, ' ');
             string telephonePadRight = $"{Telephone}".PadRight(20, ' ');

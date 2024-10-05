@@ -80,12 +80,25 @@ namespace _420_14B_FX_A24_TP1
 
         private void btnEffacerRecherche_Click(object sender, RoutedEventArgs e)
         {
-          
+          lstChambres.Items.Clear();
         }
 
         private void btnRechercheChambre_Click(object sender, RoutedEventArgs e)
         {
+            DateOnly dateArrivee = DateOnly.FromDateTime(dtpDateArrivee.SelectedDate.Value);
+            DateOnly dateDepart = DateOnly.FromDateTime(dtpDateDepart.SelectedDate.Value);
 
+            Chambre[] chambresDisponibles = _gestionHotel.RechercherChambresDisponibles(dateArrivee, dateDepart);
+
+            lstChambres.Items.Clear();
+
+            for (int i = 0; i < chambresDisponibles.Length; i++)
+            {
+                if (chambresDisponibles[i] != null)
+                {
+                    lstChambres.Items.Add(chambresDisponibles[i]);
+                }
+            }
         }
 
         private void lstChambres_SelectionChanged(object sender, SelectionChangedEventArgs e)
