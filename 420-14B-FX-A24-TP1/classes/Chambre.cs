@@ -79,10 +79,10 @@ namespace _420_14B_FX_A24_TP1.classes
         /// </returns>
         public override string ToString()
         {
-            string textePadRight = $"{Numero}".PadRight(11, ' ');
-            string textePadRight2 = $"{Type}".PadRight(20, ' ');
+            string numeroPadRight = $"{Numero}".PadRight(11, ' ');
+            string typePadRight = $"{Type}".PadRight(20, ' ');
 
-            return $"{textePadRight}{textePadRight2}{PrixParNuit}";
+            return $"{numeroPadRight}{typePadRight}{PrixParNuit}";
         }
     }
 }

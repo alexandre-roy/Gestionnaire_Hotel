@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace _420_14B_FX_A24_TP1.classes
 {
@@ -43,7 +46,7 @@ namespace _420_14B_FX_A24_TP1.classes
             set {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    value = _adresse;
+                    _adresse = value;
                 }
             }                                 
         }
@@ -58,7 +61,7 @@ namespace _420_14B_FX_A24_TP1.classes
             {
                 if (!string.IsNullOrEmpty(value) && value.Contains(COURRIEL_CAR_OBLIGATOIRE))
                 {
-                    value = _courriel;
+                    _courriel = value;
                 }
             }
         }
@@ -69,7 +72,7 @@ namespace _420_14B_FX_A24_TP1.classes
         public DateOnly DateArrivee
         {
             get { return _dateArrivee; }
-            set { value = _dateArrivee; }
+            set { _dateArrivee = value; }
         }
 
         /// <summary>
@@ -78,7 +81,7 @@ namespace _420_14B_FX_A24_TP1.classes
         public DateOnly DateDepart
         {
             get { return _dateDepart; }
-            set { value = _dateDepart; }
+            set { _dateDepart = value; }
         }
 
         /// <summary>
@@ -91,7 +94,7 @@ namespace _420_14B_FX_A24_TP1.classes
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    value = _nom;
+                    _nom = value;
                 }
             }
         }
@@ -106,7 +109,7 @@ namespace _420_14B_FX_A24_TP1.classes
             {
                 if (!string.IsNullOrEmpty(value))
                 {
-                    value = _prenom;
+                    _prenom = value;
                 }
             }
         }
@@ -121,21 +124,17 @@ namespace _420_14B_FX_A24_TP1.classes
             {
                 if (!string.IsNullOrEmpty(value) && value.Contains(TELEPHONE_CAR_OBLIGATOIRE))
                 {
-                    value = _telephone;
+                    _telephone = value;
                 }
             }
         }
 
         /// <summary>
         /// Obtient ou définit le sous-total.
-        /// </summary>
+        /// </summary>     
         public decimal SousTotal
         {
-            get {  
-
-                int nombreDeNuits = (int)(_dateDepart.ToDateTime(TimeOnly.MinValue) - _dateArrivee.ToDateTime(TimeOnly.MinValue)).TotalDays;
-
-                return nombreDeNuits * _chambre.PrixParNuit; }
+            get { return CalculerSousTotal(); }
         }
 
         /// <summary>
@@ -143,13 +142,77 @@ namespace _420_14B_FX_A24_TP1.classes
         /// </summary>
         public decimal Total
         {
-            get { return (SousTotal / 15) + SousTotal; }
+            get { return CalculerTotal();  }
         }
 
 
         #endregion
 
+        #region CONSTRUCTEUR
+
+        /// <summary>
+        /// Constructeur de la classe Reservation.
+        /// </summary>
+        public Reservation(string adresse, Chambre chambre, string courriel, DateOnly dateArrivee, DateOnly dateDepart, string nom, string prenom, string telephone)
+        {
+            Adresse = adresse;
+            _chambre = chambre;
+            Courriel = courriel;
+            DateArrivee = dateArrivee;
+            DateDepart = dateDepart;
+            Nom = nom;
+            Prenom = prenom;
+            Telephone = telephone;
+        }
+
+        #endregion
+
         #region MÉTHODES
+
+        /// <summary>
+        /// Permet de calculer le montant du sous-total de la réservation.
+        /// </summary>
+        /// <returns>
+        /// Une décimal représentant le montant du sous-total de la réservation.
+        /// </returns>
+        private decimal CalculerSousTotal()
+        {
+            int nombreDeNuits = (int)(_dateDepart.ToDateTime(TimeOnly.MinValue) - _dateArrivee.ToDateTime(TimeOnly.MinValue)).TotalDays;
+            return nombreDeNuits * _chambre.PrixParNuit;
+        }
+
+
+        /// <summary>
+        /// Permet de calculer le montant total de la réservation incluant les taxes.
+        /// </summary>
+        /// <returns>
+        /// Une décimal représentant le montant du total de la réservation.
+        /// </returns>
+        private decimal CalculerTotal()
+        {
+            return (SousTotal / 15) + SousTotal;
+        }
+
+        /// <summary>
+        /// Une chaîne de caractères représentant l'objet Reservation.
+        /// </summary>
+        /// <returns>
+        /// Une chaines de caractères représentant les informations de la réservation et du client.
+        /// </returns>
+        public override string ToString()
+        {
+            string prenomPadRight = $"{Prenom}".PadRight(10, ' ');
+            string chambrePadRight = $"{_chambre.Numero}".PadRight(10, ' ');
+            string arriveePadRight = $"{DateArrivee}".PadRight(10, ' ');
+            string departPadRight = $"{DateDepart}".PadRight(10, ' ');
+            string telephonePadRight = $"{Telephone}".PadRight(10, ' ');
+            string courrielPadRight = $"{Courriel}".PadRight(10, ' ');
+            string totalPadRight = $"{Total}".PadRight(10, ' ');
+
+
+            return $"{Nom}, {prenomPadRight}{chambrePadRight}{arriveePadRight}{departPadRight}{telephonePadRight}{courrielPadRight}{totalPadRight:C}";
+        }
+        
         #endregion
 
     }
