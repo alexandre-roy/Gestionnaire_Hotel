@@ -190,7 +190,8 @@ namespace _420_14B_FX_A24_TP1.classes
         /// </returns>
         private decimal CalculerTotal()
         {
-            return (SousTotal / 15) + SousTotal;
+            decimal taxes = 0.15M;
+            return (SousTotal * taxes) + SousTotal;
         }
 
         /// <summary>
@@ -201,16 +202,15 @@ namespace _420_14B_FX_A24_TP1.classes
         /// </returns>
         public override string ToString()
         {
-            string prenomPadRight = $"{Prenom}".PadRight(10, ' ');
+            string nomPrenomPadRight = $"{Nom}, {Prenom}".PadRight(21, ' ');
             string chambrePadRight = $"{_chambre.Numero}".PadRight(10, ' ');
-            string arriveePadRight = $"{DateArrivee}".PadRight(10, ' ');
-            string departPadRight = $"{DateDepart}".PadRight(10, ' ');
-            string telephonePadRight = $"{Telephone}".PadRight(10, ' ');
-            string courrielPadRight = $"{Courriel}".PadRight(10, ' ');
-            string totalPadRight = $"{Total}".PadRight(10, ' ');
+            string arriveePadRight = $"{DateArrivee}".PadRight(15, ' ');
+            string departPadRight = $"{DateDepart}".PadRight(16, ' ');
+            string telephonePadRight = $"{Telephone}".PadRight(20, ' ');
+            string courrielPadRight = $"{Courriel}".PadRight(38, ' ');
 
 
-            return $"{Nom}, {prenomPadRight}{chambrePadRight}{arriveePadRight}{departPadRight}{telephonePadRight}{courrielPadRight}{totalPadRight:C}";
+            return $"{nomPrenomPadRight}{chambrePadRight}{arriveePadRight}{departPadRight}{telephonePadRight}{courrielPadRight}{Total:C}";
         }
         
         #endregion

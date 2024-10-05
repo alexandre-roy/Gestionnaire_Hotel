@@ -53,6 +53,8 @@ namespace _420_14B_FX_A24_TP1
 
             AfficherListeChambres();
 
+            AfficherListeReservations();
+
         }
 
         private void AfficherListeChambres()
@@ -62,6 +64,16 @@ namespace _420_14B_FX_A24_TP1
             for (int i = 0; i < _gestionHotel.Chambres.Length; i++)
             {
                 lstChambres.Items.Add(_gestionHotel.Chambres[i]);
+            }
+        }
+
+        private void AfficherListeReservations()
+        {
+            lstReservations.Items.Clear();
+
+            for (int i = 0; i < _gestionHotel.Reservations.Length; i++)
+            {
+                lstReservations.Items.Add(_gestionHotel.Reservations[i]);
             }
         }
 

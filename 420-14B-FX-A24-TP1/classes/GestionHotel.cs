@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,16 +18,17 @@ namespace _420_14B_FX_A24_TP1.classes
         #region ATTRIBUTS
 
         /// <summary>
-        /// Vecteur de chambres
+        /// Vecteur de chambres.
         /// </summary>
         private Chambre[] _chambres;
+        private Reservation[] _reservations;
 
         #endregion
 
         #region PROPRIÉTÉS
 
         /// <summary>
-        /// Obtient la liste des chambres
+        /// Obtient la liste des chambres.
         /// </summary>
         public Chambre[] Chambres
         {
@@ -34,7 +36,14 @@ namespace _420_14B_FX_A24_TP1.classes
             set { _chambres = value; }
         }
 
-              
+        /// <summary>
+        /// Obtient la liste des reservations.
+        /// </summary>
+        public Reservation[] Reservations
+        {
+            get { return _reservations; }
+            set { _reservations = value; }
+        }
 
         #endregion
 
@@ -44,7 +53,7 @@ namespace _420_14B_FX_A24_TP1.classes
         public GestionHotel(string cheminFichierChambres, string cheminFichierReservations) 
         {
             ChargerChambres(cheminFichierChambres);
-            
+            ChargerReservations(cheminFichierReservations);
         }
 
         #endregion
@@ -67,9 +76,50 @@ namespace _420_14B_FX_A24_TP1.classes
 
                 Chambre Chambre = new Chambre(numero, prix, type);
 
-                Chambres[i] = Chambre;
+                Chambres[i - 1] = Chambre;
             }
         }
+
+        public Chambre ObtenirChambre(ushort numero)
+        {
+            for (int i = 0; i < Chambres.Length; i++)
+            {
+                if (Chambres[i].Numero == numero)
+                {
+                    return Chambres[i];
+                }
+            }
+            return null;            
+        }
+
+        private void ChargerReservations(string cheminFichierReservations)
+        {
+            string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierReservations);
+
+            Reservations = new Reservation[vectLignes.Length];
+
+            for (int i = 1; i < vectLignes.Length; i++)
+            {
+                string[] detailsReservation = vectLignes[i].Split(';');
+
+                ushort numChambre = ushort.Parse(detailsReservation[0]);
+                DateOnly dateArrivee = DateOnly.Parse(detailsReservation[1]);
+                DateOnly dateDepart = DateOnly.Parse(detailsReservation[2]);
+                string nom = detailsReservation[3];
+                string prenom = detailsReservation[4];
+                string telephone = detailsReservation[5];
+                string courriel = detailsReservation[6];
+                string adresse = detailsReservation[7];
+
+                Chambre chambre = ObtenirChambre(numChambre);
+
+                Reservation Reservation = new Reservation(adresse, chambre, courriel, dateArrivee, dateDepart, nom, prenom, telephone);
+
+                Reservations[i] = Reservation;
+            }
+        }
+
+
 
         //private Chambre[] AjouterChambre(Chambre chambre, Chambre[] vectChambres)
         //{
