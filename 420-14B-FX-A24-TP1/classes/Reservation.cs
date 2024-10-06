@@ -186,8 +186,8 @@ namespace _420_14B_FX_A24_TP1.classes
         /// </returns>
         private decimal CalculerSousTotal()
         {
-            int nombreDeNuits = (int)(_dateDepart.ToDateTime(TimeOnly.MinValue) - _dateArrivee.ToDateTime(TimeOnly.MinValue)).TotalDays;
-            return nombreDeNuits * _chambre.PrixParNuit;
+            int nombreDeNuits = (int)(DateDepart.ToDateTime(TimeOnly.MinValue) - DateArrivee.ToDateTime(TimeOnly.MinValue)).TotalDays;
+            return nombreDeNuits * Chambre.PrixParNuit;
         }
 
 

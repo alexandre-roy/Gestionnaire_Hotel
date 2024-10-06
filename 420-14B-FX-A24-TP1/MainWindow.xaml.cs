@@ -103,7 +103,20 @@ namespace _420_14B_FX_A24_TP1
 
         private void lstChambres_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Chambre chambreSelectionnee = (Chambre)lstChambres.SelectedItem;
+            txtNumero.Text = chambreSelectionnee.Numero.ToString();
+            txtType.Text = chambreSelectionnee.Type.ToString();
+            txtDateArrivee.Text = dtpDateArrivee.SelectedDate.Value.ToShortDateString();
+            txtDateDepart.Text = dtpDateDepart.SelectedDate.Value.ToShortDateString();
+            txtPrixParNuit.Text = chambreSelectionnee.PrixParNuit.ToString();
 
+            DateTime dateArrivee = DateTime.Parse(txtDateArrivee.Text);
+            DateTime dateDepart = DateTime.Parse(txtDateDepart.Text);
+            int nbJours = (dateDepart - dateArrivee).Days;
+            decimal sousTotal = (nbJours * decimal.Parse(txtPrixParNuit.Text));
+            decimal total = sousTotal + (sousTotal * 0.15M);
+
+            txtTotal.Text = total.ToString();
         }
 
         private void btnEffacerReservation_Click(object sender, RoutedEventArgs e)
@@ -114,8 +127,19 @@ namespace _420_14B_FX_A24_TP1
 
         private void btnCreerReservation_Click(object sender, RoutedEventArgs e)
         {
+            string nom = txtNom.Text;
+            string prenom = txtPrenom.Text;     
+            string courriel = txtCourriel.Text;
+            string telephone = txtTelephone.Text;
+            string adresse = txtAdresse.Text;
 
+            Reservation nouvelleReservation = new Reservation(adresse, (Chambre)lstChambres.SelectedItem, courriel, DateOnly.FromDateTime(dtpDateArrivee.SelectedDate.Value), DateOnly.FromDateTime(dtpDateDepart.SelectedDate.Value), nom, prenom, telephone);
 
+            _gestionHotel.CreerReservation(nouvelleReservation);
+
+            lstReservations.Items.Clear();
+
+            AfficherListeReservations();
         }
 
         private void btnEffacerRechercheReservation_Click(object sender, RoutedEventArgs e)
@@ -134,5 +158,6 @@ namespace _420_14B_FX_A24_TP1
         }
         #endregion
 
+        
     }
 }

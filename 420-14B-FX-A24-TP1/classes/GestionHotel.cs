@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.Arm;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -119,7 +122,7 @@ namespace _420_14B_FX_A24_TP1.classes
             }
         }
 
-        public Chambre[] AjouterChambre(Chambre chambre, Chambre[] vectChambres)
+        private Chambre[] AjouterChambre(Chambre chambre, Chambre[] vectChambres)
         {
             Chambre[] chambre1 = new Chambre[vectChambres.Length + 1];
 
@@ -163,6 +166,36 @@ namespace _420_14B_FX_A24_TP1.classes
             }
             return chambresDispo;
         }
+
+        private Reservation[] AjouterReservation(Reservation reservation, Reservation[] reservations)
+        {
+            Reservation[] reservation1 = new Reservation[reservations.Length + 1];
+
+            for (int i = 0; i < reservations.Length; i++)
+            {
+                reservation1[i] = reservations[i];
+
+                reservation1[reservations.Length] = reservation;
+            }
+
+            return reservation1;
+        }
+
+        /// <summary>
+        ///  Permet d’ajouter une nouvelle réservation aux réservations existantes.
+        /// </summary>
+        public void CreerReservation(Reservation reservation)
+        {
+            Reservations = AjouterReservation(reservation, Reservations);
+        }
+        /// <summary>
+        /// Permet d’obtenir le montant total de toutes les réservations.
+        /// </summary>
+        public decimal CalculerMontantTotalReservations()
+        {
+            return 1.2M;
+        }
+
 
 
         #endregion
