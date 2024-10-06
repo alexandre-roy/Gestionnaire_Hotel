@@ -44,7 +44,7 @@ namespace _420_14B_FX_A24_TP1.classes
         {
             get { return _adresse; }
             set {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     _adresse = value;
                 }
@@ -59,7 +59,7 @@ namespace _420_14B_FX_A24_TP1.classes
             get { return _courriel; }
             set
             {
-                if (!string.IsNullOrEmpty(value) && value.Contains(COURRIEL_CAR_OBLIGATOIRE))
+                if (!string.IsNullOrWhiteSpace(value) && value.Contains(COURRIEL_CAR_OBLIGATOIRE))
                 {
                     _courriel = value;
                 }
@@ -92,7 +92,7 @@ namespace _420_14B_FX_A24_TP1.classes
             get { return _nom; }
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     _nom = value;
                 }
@@ -107,7 +107,7 @@ namespace _420_14B_FX_A24_TP1.classes
             get { return _prenom; }
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrWhiteSpace(value))
                 {
                     _prenom = value;
                 }
@@ -122,7 +122,7 @@ namespace _420_14B_FX_A24_TP1.classes
             get { return _telephone; }
             set
             {
-                if (!string.IsNullOrEmpty(value) && value.Contains(TELEPHONE_CAR_OBLIGATOIRE))
+                if (!string.IsNullOrWhiteSpace(value) && value.Contains(TELEPHONE_CAR_OBLIGATOIRE))
                 {
                     _telephone = value;
                 }
