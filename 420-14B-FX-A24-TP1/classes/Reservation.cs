@@ -154,7 +154,6 @@ namespace _420_14B_FX_A24_TP1.classes
             set { _chambre = value; }
         }
 
-
         #endregion
 
         #region CONSTRUCTEUR
@@ -218,11 +217,9 @@ namespace _420_14B_FX_A24_TP1.classes
             string telephonePadRight = $"{Telephone}".PadRight(20, ' ');
             string courrielPadRight = $"{Courriel}".PadRight(38, ' ');
 
-
             return $"{nomPrenomPadRight}{chambrePadRight}{arriveePadRight}{departPadRight}{telephonePadRight}{courrielPadRight}{Total:C}";
         }
         
         #endregion
-
     }
 }

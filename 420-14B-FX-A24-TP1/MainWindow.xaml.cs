@@ -19,8 +19,6 @@ namespace _420_14B_FX_A24_TP1
     /// </summary>
     public partial class MainWindow : Window
     {
-
-
         #region CONSTANTES
 
         public const string CHEMIN_FICHIER_CHAMBRES = @"C:\data\420-14B-FX\TP1\chambres.csv";
@@ -32,20 +30,19 @@ namespace _420_14B_FX_A24_TP1
         #region ATTRIBUTS
 
         /// <summary>
-        /// Hotel
+        /// Gestionnaire d'hotel
         /// </summary>
         GestionHotel _gestionHotel;
 
         #endregion
 
-        #region CONSTRUCTEURS
+        #region CONSTRUCTEUR
         public MainWindow()
         {
             InitializeComponent();
         }
 
         #endregion
-
 
         #region MÉTHODES
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -76,7 +73,55 @@ namespace _420_14B_FX_A24_TP1
             }
         }
 
+        private string ValiderFormulaire()
+        {
+            string messageErreur = "";
 
+            if (string.IsNullOrWhiteSpace(txtNom.Text))
+            {
+                messageErreur += $"Vous devez inscrire le nom du client.\n";
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPrenom.Text))
+            {
+                messageErreur += $"Vous devez inscrire le prénom du client.\n";
+            }
+
+            if (string.IsNullOrWhiteSpace(txtCourriel.Text))
+            {
+                messageErreur += $"Vous devez inscrire le courriel du client.\n";
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtCourriel.Text) && !txtCourriel.Text.Contains(Reservation.COURRIEL_CAR_OBLIGATOIRE))
+            {
+                messageErreur += $"Le courriel doint contenir un '@'.\n";
+            }
+
+            if (string.IsNullOrWhiteSpace(txtTelephone.Text))
+            {
+                messageErreur += $"Vous devez inscrire le numéro de téléphone du client.\n";
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && !txtTelephone.Text.Contains(Reservation.TELEPHONE_CAR_OBLIGATOIRE))
+            {
+                messageErreur += $"Le numéro de téléphone doit contenir au moins un '-'.\n";
+            }
+
+            if (string.IsNullOrWhiteSpace(txtAdresse.Text))
+            {
+                messageErreur += $"Vous devez inscrire l'adresse du client.";
+            }
+
+            return messageErreur;
+        }
+
+        #endregion
+
+        #region ACTIONS-FORMULAIRE
+
+        /// <summary>
+        /// Efface les champs de recherche de chambres.
+        /// </summary>
         private void btnEffacerRecherche_Click(object sender, RoutedEventArgs e)
         {
             dtpDateArrivee.SelectedDate = null;
@@ -84,6 +129,9 @@ namespace _420_14B_FX_A24_TP1
             lstChambres.Items.Clear();
         }
 
+        /// <summary>
+        /// Recherche les chambres disponibles pour les dates sélectionnées.
+        /// </summary>
         private void btnRechercheChambre_Click(object sender, RoutedEventArgs e)
         {
             if (!dtpDateArrivee.SelectedDate.HasValue || !dtpDateDepart.SelectedDate.HasValue)
@@ -113,6 +161,9 @@ namespace _420_14B_FX_A24_TP1
             }
         }
 
+        /// <summary>
+        /// Remplis les informations de la chambre sélectionnée.
+        /// </summary>
         private void lstChambres_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(!dtpDateArrivee.SelectedDate.HasValue || !dtpDateDepart.SelectedDate.HasValue)
@@ -148,6 +199,9 @@ namespace _420_14B_FX_A24_TP1
             txtTotal.Text = $"{total:C}";
         }
 
+        /// <summary>
+        /// Efface les champs de création de réservations.
+        /// </summary>
         private void btnEffacerReservation_Click(object sender, RoutedEventArgs e)
         {
             txtNom.Text = null;
@@ -164,54 +218,19 @@ namespace _420_14B_FX_A24_TP1
             txtTotal.Text = null;
 
             lstChambres.SelectedItem = null;
-
         }
 
-        private string ValiderFormulaire()
-        {
-            string messageErreur = "";
-
-            if (string.IsNullOrWhiteSpace(txtNom.Text))
-            {
-                messageErreur += $"Vous devez inscrire le nom du client.\n";
-            }
-            
-            if (string.IsNullOrWhiteSpace(txtPrenom.Text))
-            {
-                messageErreur += $"Vous devez inscrire le prénom du client.\n";
-            }
-
-            if (string.IsNullOrWhiteSpace(txtCourriel.Text))
-            {
-                messageErreur += $"Vous devez inscrire le courriel du client.\n";
-            }
-
-            if (!string.IsNullOrWhiteSpace(txtCourriel.Text) && !txtCourriel.Text.Contains(Reservation.COURRIEL_CAR_OBLIGATOIRE))
-            {
-                messageErreur += $"Le courriel doint contenir un '@'.\n";
-            }
-
-            if (string.IsNullOrWhiteSpace(txtTelephone.Text))
-            {
-                messageErreur += $"Vous devez inscrire le numéro de téléphone du client.\n";
-            }
-
-            if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && !txtTelephone.Text.Contains(Reservation.TELEPHONE_CAR_OBLIGATOIRE))
-            {
-                messageErreur += $"Le numéro de téléphone doit contenir au moins un '-'.\n";
-            }
-
-            if (string.IsNullOrWhiteSpace(txtAdresse.Text))
-            {
-                messageErreur += $"Vous devez inscrire l'adresse du client.";
-            }
-
-            return messageErreur;
-        }
-
+        /// <summary>
+        /// Crée une nouvelle réservation.
+        /// </summary>
         private void btnCreerReservation_Click(object sender, RoutedEventArgs e)
         {
-            if (ValiderFormulaire() == "")
+            if(lstChambres.SelectedItem == null)
+                {
+                MessageBox.Show("Vous devez sélectionner une chambre.", "Création d'une réservation");
+            }
+
+            else if (ValiderFormulaire() == "")
             {
                 string nom = txtNom.Text;
                 string prenom = txtPrenom.Text;
@@ -227,6 +246,10 @@ namespace _420_14B_FX_A24_TP1
 
                 AfficherListeReservations();
 
+                txtTotalReservations.Text = $"{_gestionHotel.CalculerMontantTotalReservations():C}";
+                txtPrixMoyenReservation.Text = $"{_gestionHotel.CalculerPrixMoyenReservation():C}";
+                txtChambrePlusReservee.Text = Convert.ToString(_gestionHotel.ObtenirChambreLaPlusReservee().Numero);
+
                 txtNom.Clear();
                 txtPrenom.Clear();
                 txtCourriel.Clear();
@@ -239,16 +262,22 @@ namespace _420_14B_FX_A24_TP1
                 txtPrixParNuit.Clear();
                 txtTotal.Clear();
 
+                _gestionHotel.EnregistrerReservation(CHEMIN_FICHIER_RESERVATIONS);
+
                 MessageBox.Show("La réservation a été créée avec succès!", "Création d'une réservation");
 
-                //_gestionHotel.EnregistrerReservation(CHEMIN_FICHIER_RESERVATIONS);
+                lstChambres.Items.Clear();
             }
+            
             else
             {
                 MessageBox.Show(ValiderFormulaire(), "Création d'une réservation");
             }
         }
 
+        /// <summary>
+        /// Efface les champs de recherche de réservations et la liste des réservations.
+        /// </summary>
         private void btnEffacerRechercheReservation_Click(object sender, RoutedEventArgs e)
         {
             lstReservations.Items.Clear();
@@ -256,6 +285,9 @@ namespace _420_14B_FX_A24_TP1
             txtRechercheTelephone.Clear();
         }
 
+        /// <summary>
+        /// Recherche des réservations selon les critères de recherche.
+        /// </summary>
         private void btnRechercherReservation_Click(object sender, RoutedEventArgs e)
         {
             lstReservations.Items.Clear();
@@ -268,14 +300,24 @@ namespace _420_14B_FX_A24_TP1
             }
         }
 
+        /// <summary>
+        /// Supprime la réservation sélectionnée.
+        /// </summary>
         private void btnSupprimerReservation_Click(object sender, RoutedEventArgs e)
         {
             _gestionHotel.SupprimerReservation((Reservation)lstReservations.SelectedItem);
             lstReservations.Items.Clear();
-            AfficherListeReservations();
-        }
-        #endregion
 
-        
+            MessageBox.Show("La réservation a été supprimée avec succès!", "Suppression d'une réservation");
+
+            txtTotalReservations.Text = $"{_gestionHotel.CalculerMontantTotalReservations():C}";
+            txtPrixMoyenReservation.Text = $"{_gestionHotel.CalculerPrixMoyenReservation():C}";
+            txtChambrePlusReservee.Text = Convert.ToString(_gestionHotel.ObtenirChambreLaPlusReservee().Numero);
+
+            _gestionHotel.EnregistrerReservation(CHEMIN_FICHIER_RESERVATIONS);
+
+        }
+
+        #endregion     
     }
 }

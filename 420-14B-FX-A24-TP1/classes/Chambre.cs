@@ -9,10 +9,16 @@ namespace _420_14B_FX_A24_TP1.classes
     /// </summary>
     public class Chambre
     {
+        #region ATTRIBUTS
+
         // Champs privés
         private ushort _numero;
         private decimal _prixParNuit;
         private TypeChambre _type;
+
+        #endregion
+
+        #region PROPRIÉTÉS
 
         /// <summary>
         /// Obtient ou définit le numéro de la chambre.
@@ -32,7 +38,6 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Obtient ou définit le type de la chambre (par exemple, Simple, Double, Suite).
         /// </summary>
-        //Todo : Ajouter la propriété manquante
         public TypeChambre Type
         {
             get { return _type; }
@@ -58,18 +63,23 @@ namespace _420_14B_FX_A24_TP1.classes
             }
         }
 
+        #endregion
+
+        #region CONSTRUCTEUR
+
         /// <summary>
         /// Initialise une nouvelle instance de la classe Chambre/>.
         /// </summary>
-
-
-        //Todo : Implémenter le constructeur avec paramèttres
         public Chambre(ushort numero, decimal prixParNuit, TypeChambre type)
         {
             Numero = numero;
             PrixParNuit = prixParNuit;
             Type = type;
         }
+
+        #endregion
+
+        #region MÉTHODES
 
         /// <summary>
         /// Retourne une chaîne de caractères représentant l'objet Chambre.
@@ -84,5 +94,7 @@ namespace _420_14B_FX_A24_TP1.classes
 
             return $"{numeroPadRight}{typePadRight}{PrixParNuit}";
         }
+
+        #endregion
     }
 }

@@ -19,7 +19,6 @@ namespace _420_14B_FX_A24_TP1.classes
 {
     public class GestionHotel
     {
-
         #region ATTRIBUTS
 
         /// <summary>
@@ -52,9 +51,10 @@ namespace _420_14B_FX_A24_TP1.classes
 
         #endregion
 
-
-        #region CONSTRUCTEURS
-
+        #region CONSTRUCTEUR
+        /// <summary>
+        /// Constructeur de GestionHotel.
+        /// </summary>
         public GestionHotel(string cheminFichierChambres, string cheminFichierReservations)
         {
             ChargerChambres(cheminFichierChambres);
@@ -65,6 +65,9 @@ namespace _420_14B_FX_A24_TP1.classes
 
         #region MÉTHODES
 
+        /// <summary>
+        /// Permet de charger les chambres à partir du chemin d'accès du fichier passé en paramètre. 
+        /// </summary>
         private void ChargerChambres(string cheminFichierChambres)
         {
             string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierChambres);
@@ -85,6 +88,9 @@ namespace _420_14B_FX_A24_TP1.classes
             }
         }
 
+        /// <summary>
+        ///  Permet d’obtenir une chambre dans la liste des chambres à partir de son numéro.
+        ///  </summary>
         public Chambre ObtenirChambre(ushort numero)
         {
             for (int i = 0; i < Chambres.Length; i++)
@@ -97,6 +103,9 @@ namespace _420_14B_FX_A24_TP1.classes
             return null;
         }
 
+        /// <summary>
+        /// Permet de charger les réservations à partir du chemin d'accès du fichier passé en paramètre.
+        /// </summary>
         private void ChargerReservations(string cheminFichierReservations)
         {
             string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierReservations);
@@ -124,20 +133,9 @@ namespace _420_14B_FX_A24_TP1.classes
             }
         }
 
-        private Chambre[] AjouterChambre(Chambre chambre, Chambre[] vectChambres)
-        {
-            Chambre[] chambre1 = new Chambre[vectChambres.Length + 1];
-
-            for (int i = 0; i < vectChambres.Length; i++)
-            {
-                chambre1[i] = vectChambres[i];
-
-                chambre1[vectChambres.Length] = chambre;
-            }
-
-            return chambre1;
-        }
-
+        /// <summary>
+        /// Permet d’obtenir les chambres disponibles (i.e. qui n’ont pas de réservation) selon la date d’arrivée et la date de départ.
+        /// </summary>
         public Chambre[] RechercherChambresDisponibles(DateOnly dateArrivee, DateOnly dateDepart)
         {
             Chambre[] chambresDispo = new Chambre[Chambres.Length];
@@ -169,6 +167,26 @@ namespace _420_14B_FX_A24_TP1.classes
             return chambresDispo;
         }
 
+        /// <summary>
+        /// Permet d’ajouter une chambre à un vecteur de chambres reçu en paramètre.
+        /// </summary>
+        private Chambre[] AjouterChambre(Chambre chambre, Chambre[] vectChambres)
+        {
+            Chambre[] chambre1 = new Chambre[vectChambres.Length + 1];
+
+            for (int i = 0; i < vectChambres.Length; i++)
+            {
+                chambre1[i] = vectChambres[i];
+
+                chambre1[vectChambres.Length] = chambre;
+            }
+
+            return chambre1;
+        }
+
+        /// <summary>
+        /// Permet d’ajouter la réservation au vecteur de réservations reçu en paramètre.
+        /// </summary>
         private Reservation[] AjouterReservation(Reservation reservation, Reservation[] reservations)
         {
             Reservation[] reservation1 = new Reservation[reservations.Length + 1];
@@ -192,40 +210,50 @@ namespace _420_14B_FX_A24_TP1.classes
         }
 
         /// <summary>
+        /// Recherche des réservations par courriel ou téléphone, et retourne les réservations correspondantes.
+        /// </summary>
+        public Reservation[] RechercherReservations(string courriel, string telephone)
+        {
+            Reservation[] listeFiltre = new Reservation[Reservations.Length];
+
+            if (courriel == "" && telephone == "")
+            {
+                for (int i = 0; i < Reservations.Length; i++)
+                {
+                    listeFiltre[i] = Reservations[i];
+                }
+            }
+            else if (telephone != "" || courriel != "")
+            {
+                for (int i = 0; i < Reservations.Length; i++)
+                {
+                    if (Reservations[i].Courriel == courriel || Reservations[i].Telephone == telephone)
+                    {
+                        listeFiltre[i] = Reservations[i];
+                    }
+                }
+            }
+
+            return listeFiltre;
+        }
+
+        /// <summary>
         ///  Supprime la réservation reçue en paramètres des réservations existantes.
         /// </summary>
         public void SupprimerReservation(Reservation reservation)
         {
             Reservation[] nouvellesReservations = new Reservation[Reservations.Length - 1];
-
-            for (int i = 0; i < nouvellesReservations.Length; i++)
-            {
-                if (Reservations[i] != reservation)
-                {
-                    nouvellesReservations[i] = Reservations[i];
-                }
-            }
-            Reservations = nouvellesReservations;
-        }
-
-        /// <summary>
-        /// Permet l’enregistrement des réservations en format CSV 
-        /// </summary>
-        public void EnregistrerReservation(string cheminFichier)
-        {
-            string[] lignes = new string[Reservations.Length + 1];
-
-            lignes[0] = "NumeroChambre;DateArrivee;DateDepart;Nom;Prenom;Telephone;Courriel;Adresse";
+            int j = 0;
 
             for (int i = 0; i < Reservations.Length; i++)
             {
-                Reservation reservation = Reservations[i];
-                lignes[i + 1] = $"{reservation.Chambre.Numero};{reservation.DateArrivee};{reservation.DateDepart};{reservation.Nom};{reservation.Prenom};{reservation.Telephone};{reservation.Courriel};{reservation.Adresse}";
+                if (Reservations[i] != reservation)
+                {
+                    nouvellesReservations[j] = Reservations[i];
+                    j++;
+                }
             }
-
-            string pdonneesSerialisees = string.Join("\n", lignes);
-
-            Utilitaire.EnregistrerDonnees(cheminFichier, pdonneesSerialisees);
+            Reservations = nouvellesReservations;
         }
 
         /// <summary>
@@ -285,31 +313,27 @@ namespace _420_14B_FX_A24_TP1.classes
         }
 
         /// <summary>
-        /// Recherche des réservations par courriel ou téléphone, et retourne les réservations correspondantes.
+        /// Permet l’enregistrement des réservations en format CSV 
         /// </summary>
-        public Reservation[] RechercherReservations(string courriel, string telephone)
+        public void EnregistrerReservation(string cheminFichier)
         {
-            Reservation[] listeFiltre = new Reservation[Reservations.Length];
+            string donnees = null;
 
-            if (courriel == "" && telephone == "")
+            donnees += "NumeroChambre;DateArrivee;DateDepart;Nom;Prenom;Telephone;Courriel;Adresse\n";
+
+            for (int i = 0; i < Reservations.Length; i++)
             {
-                for (int i = 0; i < Reservations.Length; i++)
-                {
-                    listeFiltre[i] = Reservations[i];
-                }
-            }
-            else if (telephone != "" || courriel != "")
-            {
-                for (int i = 0; i < Reservations.Length; i++)
-                {
-                    if (Reservations[i].Courriel == courriel || Reservations[i].Telephone == telephone)
-                    {
-                        listeFiltre[i] = Reservations[i];
-                    }
-                }
+                donnees += $"{Reservations[i].Chambre.Numero};";
+                donnees += $"{Reservations[i].DateArrivee};";
+                donnees += $"{Reservations[i].DateDepart};";
+                donnees += $"{Reservations[i].Nom};";
+                donnees += $"{Reservations[i].Prenom};";
+                donnees += $"{Reservations[i].Telephone};";
+                donnees += $"{Reservations[i].Courriel};";
+                donnees += $"{Reservations[i].Adresse}\n";
             }
 
-            return listeFiltre;
+            Utilitaire.EnregistrerDonnees(cheminFichier, donnees);
         }
 
         #endregion
