@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -121,11 +122,11 @@ namespace _420_14B_FX_A24_TP1
             }
 
             Chambre chambreSelectionnee = (Chambre)lstChambres.SelectedItem;
-            txtNumero.Text = chambreSelectionnee.Numero.ToString();
-            txtType.Text = chambreSelectionnee.Type.ToString();
+            txtNumero.Text = Convert.ToString(chambreSelectionnee.Numero);
+            txtType.Text = Convert.ToString(chambreSelectionnee.Type);
             txtDateArrivee.Text = dtpDateArrivee.SelectedDate.Value.ToShortDateString();
             txtDateDepart.Text = dtpDateDepart.SelectedDate.Value.ToShortDateString();
-            txtPrixParNuit.Text = chambreSelectionnee.PrixParNuit.ToString();
+            txtPrixParNuit.Text = Convert.ToString(chambreSelectionnee.PrixParNuit);
 
             DateTime dateArrivee = DateTime.Parse(txtDateArrivee.Text);
             DateTime dateDepart = DateTime.Parse(txtDateDepart.Text);
@@ -137,9 +138,8 @@ namespace _420_14B_FX_A24_TP1
         }
 
         private void btnEffacerReservation_Click(object sender, RoutedEventArgs e)
-        {
+        {          
 
-            
         }
 
         private string ValiderFormulaire()
@@ -215,6 +215,8 @@ namespace _420_14B_FX_A24_TP1
                 txtTotal.Clear();
 
                 MessageBox.Show("La réservation a été créée avec succès!", "Création d'une réservation");
+
+                //_gestionHotel.EnregistrerReservation(CHEMIN_FICHIER_RESERVATIONS);
             }
             else
             {
@@ -229,12 +231,16 @@ namespace _420_14B_FX_A24_TP1
 
         private void btnRechercherReservation_Click(object sender, RoutedEventArgs e)
         {
-            
+            AfficherListeReservations();
         }
 
         private void btnSupprimerReservation_Click(object sender, RoutedEventArgs e)
         {
-           
+            _gestionHotel.SupprimerReservation((Reservation)lstReservations.SelectedItem);
+
+            lstReservations.Items.Clear();
+
+            AfficherListeReservations();
         }
         #endregion
 

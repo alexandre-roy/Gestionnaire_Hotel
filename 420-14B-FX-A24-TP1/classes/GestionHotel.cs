@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.Arm;
@@ -188,6 +190,55 @@ namespace _420_14B_FX_A24_TP1.classes
         {
             Reservations = AjouterReservation(reservation, Reservations);
         }
+
+        /// <summary>
+        ///  Supprime la réservation reçue en paramètres des réservations existantes.
+        /// </summary>
+        public void SupprimerReservation(Reservation reservation)
+        {
+            Reservation[] nouvellesReservations = new Reservation[Reservations.Length - 1];
+            for (int i = 0; i < nouvellesReservations.Length; i++)
+            {
+                if(Reservations[i] != reservation)
+                {
+                    nouvellesReservations[i] = Reservations[i];
+                }
+            }
+            Reservations = nouvellesReservations;
+        }
+
+        /// <summary>
+        /// Permet l’enregistrement des réservations en format CSV 
+        /// </summary>
+        //public void EnregistrerReservation(string cheminFichier)
+        //{
+        //    string[] lignes = new string[Reservations.Length + 1];
+
+        //    lignes[0] = "NumeroChambre;DateArrivee;DateDepart;Nom;Prenom;Telephone;Courriel;Adresse";
+
+        //    for (int i = 0; i < Reservations.Length; i++)
+        //    {
+        //        Reservation reservation = Reservations[i];
+        //        lignes[i + 1] = $"{reservation.Chambre.Numero};{reservation.DateArrivee};{reservation.DateDepart};{reservation.Nom};{reservation.Prenom};{reservation.Telephone};{reservation.Courriel};{reservation.Adresse}";
+        //    }
+
+        //    string pdonneesSerialisees = string.Join("\n", lignes);
+
+        //    Utilitaire.EnregistrerDonnees(cheminFichier, pdonneesSerialisees);
+        //}
+
+        /// <summary>
+        /// Permet de rechercher les réservations par courriel ou téléphone, et retourne les réservations correspondantes.
+        /// </summary>
+        public Reservation[] RechercherReservations(string courriel, string telephone)
+        {
+            Reservation[] listeReservations = new Reservation[Reservations.Length];
+
+            
+
+            return listeReservations;
+        }
+
         /// <summary>
         /// Permet d’obtenir le montant total de toutes les réservations.
         /// </summary>
