@@ -79,7 +79,9 @@ namespace _420_14B_FX_A24_TP1
 
         private void btnEffacerRecherche_Click(object sender, RoutedEventArgs e)
         {
-          lstChambres.Items.Clear();
+            dtpDateArrivee.SelectedDate = null;
+            dtpDateDepart.SelectedDate = null;
+            lstChambres.Items.Clear();
         }
 
         private void btnRechercheChambre_Click(object sender, RoutedEventArgs e)
@@ -125,6 +127,12 @@ namespace _420_14B_FX_A24_TP1
             }
 
             Chambre chambreSelectionnee = (Chambre)lstChambres.SelectedItem;
+
+            if (chambreSelectionnee == null)
+            {
+                return;
+            }
+
             txtNumero.Text = Convert.ToString(chambreSelectionnee.Numero);
             txtType.Text = Convert.ToString(chambreSelectionnee.Type);
             txtDateArrivee.Text = dtpDateArrivee.SelectedDate.Value.ToShortDateString();
@@ -141,7 +149,21 @@ namespace _420_14B_FX_A24_TP1
         }
 
         private void btnEffacerReservation_Click(object sender, RoutedEventArgs e)
-        {          
+        {
+            txtNom.Text = null;
+            txtPrenom.Text = null;
+            txtCourriel.Text = null;
+            txtTelephone.Text = null;
+            txtAdresse.Text = null;
+
+            txtNumero.Text = null;
+            txtType.Text = null;
+            txtDateArrivee.Text = null;
+            txtDateDepart.Text = null;
+            txtPrixParNuit.Text = null;
+            txtTotal.Text = null;
+
+            lstChambres.SelectedItem = null;
 
         }
 
@@ -229,20 +251,27 @@ namespace _420_14B_FX_A24_TP1
 
         private void btnEffacerRechercheReservation_Click(object sender, RoutedEventArgs e)
         {
-
+            lstReservations.Items.Clear();
+            txtRechercheCourriel.Clear();
+            txtRechercheTelephone.Clear();
         }
 
         private void btnRechercherReservation_Click(object sender, RoutedEventArgs e)
         {
-            AfficherListeReservations();
+            lstReservations.Items.Clear();
+
+            Reservation[] liste = _gestionHotel.RechercherReservations(txtRechercheCourriel.Text, txtRechercheTelephone.Text);
+
+            for (int i = 0; i < liste.Length; i++)
+            {
+                lstReservations.Items.Add(liste[i]);
+            }
         }
 
         private void btnSupprimerReservation_Click(object sender, RoutedEventArgs e)
         {
             _gestionHotel.SupprimerReservation((Reservation)lstReservations.SelectedItem);
-
             lstReservations.Items.Clear();
-
             AfficherListeReservations();
         }
         #endregion

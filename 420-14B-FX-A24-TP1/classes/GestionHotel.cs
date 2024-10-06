@@ -197,6 +197,7 @@ namespace _420_14B_FX_A24_TP1.classes
         public void SupprimerReservation(Reservation reservation)
         {
             Reservation[] nouvellesReservations = new Reservation[Reservations.Length - 1];
+
             for (int i = 0; i < nouvellesReservations.Length; i++)
             {
                 if (Reservations[i] != reservation)
@@ -210,33 +211,21 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet l’enregistrement des réservations en format CSV 
         /// </summary>
-        //public void EnregistrerReservation(string cheminFichier)
-        //{
-        //    string[] lignes = new string[Reservations.Length + 1];
-
-        //    lignes[0] = "NumeroChambre;DateArrivee;DateDepart;Nom;Prenom;Telephone;Courriel;Adresse";
-
-        //    for (int i = 0; i < Reservations.Length; i++)
-        //    {
-        //        Reservation reservation = Reservations[i];
-        //        lignes[i + 1] = $"{reservation.Chambre.Numero};{reservation.DateArrivee};{reservation.DateDepart};{reservation.Nom};{reservation.Prenom};{reservation.Telephone};{reservation.Courriel};{reservation.Adresse}";
-        //    }
-
-        //    string pdonneesSerialisees = string.Join("\n", lignes);
-
-        //    Utilitaire.EnregistrerDonnees(cheminFichier, pdonneesSerialisees);
-        //}
-
-        /// <summary>
-        /// Permet de rechercher les réservations par courriel ou téléphone, et retourne les réservations correspondantes.
-        /// </summary>
-        public Reservation[] RechercherReservations(string courriel, string telephone)
+        public void EnregistrerReservation(string cheminFichier)
         {
-            Reservation[] listeReservations = new Reservation[Reservations.Length];
+            string[] lignes = new string[Reservations.Length + 1];
 
+            lignes[0] = "NumeroChambre;DateArrivee;DateDepart;Nom;Prenom;Telephone;Courriel;Adresse";
 
+            for (int i = 0; i < Reservations.Length; i++)
+            {
+                Reservation reservation = Reservations[i];
+                lignes[i + 1] = $"{reservation.Chambre.Numero};{reservation.DateArrivee};{reservation.DateDepart};{reservation.Nom};{reservation.Prenom};{reservation.Telephone};{reservation.Courriel};{reservation.Adresse}";
+            }
 
-            return listeReservations;
+            string pdonneesSerialisees = string.Join("\n", lignes);
+
+            Utilitaire.EnregistrerDonnees(cheminFichier, pdonneesSerialisees);
         }
 
         /// <summary>
@@ -295,8 +284,35 @@ namespace _420_14B_FX_A24_TP1.classes
             return chambrePopulaire;
         }
 
+        /// <summary>
+        /// Recherche des réservations par courriel ou téléphone, et retourne les réservations correspondantes.
+        /// </summary>
+        public Reservation[] RechercherReservations(string courriel, string telephone)
+        {
+            Reservation[] listeFiltre = new Reservation[Reservations.Length];
+
+            if (courriel == "" && telephone == "")
+            {
+                for (int i = 0; i < Reservations.Length; i++)
+                {
+                    listeFiltre[i] = Reservations[i];
+                }
+            }
+            else if (telephone != "" || courriel != "")
+            {
+                for (int i = 0; i < Reservations.Length; i++)
+                {
+                    if (Reservations[i].Courriel == courriel || Reservations[i].Telephone == telephone)
+                    {
+                        listeFiltre[i] = Reservations[i];
+                    }
+                }
+            }
+
+            return listeFiltre;
+        }
+
         #endregion
     }
 }
-
     
