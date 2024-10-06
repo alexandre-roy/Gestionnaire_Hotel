@@ -55,7 +55,7 @@ namespace _420_14B_FX_A24_TP1.classes
 
         #region CONSTRUCTEURS
 
-        public GestionHotel(string cheminFichierChambres, string cheminFichierReservations) 
+        public GestionHotel(string cheminFichierChambres, string cheminFichierReservations)
         {
             ChargerChambres(cheminFichierChambres);
             ChargerReservations(cheminFichierReservations);
@@ -69,7 +69,7 @@ namespace _420_14B_FX_A24_TP1.classes
         {
             string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierChambres);
 
-            Chambres = new Chambre[vectLignes.Length - 1];          
+            Chambres = new Chambre[vectLignes.Length - 1];
 
             for (int i = 1; i < vectLignes.Length; i++)
             {
@@ -94,7 +94,7 @@ namespace _420_14B_FX_A24_TP1.classes
                     return Chambres[i];
                 }
             }
-            return null;            
+            return null;
         }
 
         private void ChargerReservations(string cheminFichierReservations)
@@ -151,7 +151,7 @@ namespace _420_14B_FX_A24_TP1.classes
                     if (Chambres[i].Numero == Reservations[j].Chambre.Numero)
                     {
                         if (dateArrivee < Reservations[j].DateDepart && dateDepart > Reservations[j].DateArrivee)
-                        { 
+                        {
                             dispo = false;
                         }
                         else
@@ -199,7 +199,7 @@ namespace _420_14B_FX_A24_TP1.classes
             Reservation[] nouvellesReservations = new Reservation[Reservations.Length - 1];
             for (int i = 0; i < nouvellesReservations.Length; i++)
             {
-                if(Reservations[i] != reservation)
+                if (Reservations[i] != reservation)
                 {
                     nouvellesReservations[i] = Reservations[i];
                 }
@@ -234,7 +234,7 @@ namespace _420_14B_FX_A24_TP1.classes
         {
             Reservation[] listeReservations = new Reservation[Reservations.Length];
 
-            
+
 
             return listeReservations;
         }
@@ -244,14 +244,59 @@ namespace _420_14B_FX_A24_TP1.classes
         /// </summary>
         public decimal CalculerMontantTotalReservations()
         {
-            return 1.2M;
+            decimal montantTotal = 0;
+
+            for (int i = 0; i < Reservations.Length; i++)
+            {
+                montantTotal += Reservations[i].Total;
+            }
+
+            return montantTotal;
+        }
+        /// <summary>
+        /// Permet d’obtenir le prix moyen d’une réservation.
+        /// </summary>
+        public decimal CalculerPrixMoyenReservation()
+        {
+            decimal montantTotal = CalculerMontantTotalReservations();
+            decimal prixMoyen = 0;
+
+            prixMoyen = montantTotal / Reservations.Length;
+
+            return prixMoyen;
         }
 
+        /// <summary>
+        /// Permet d’obtenir la chambre ayant eu le plus de réservations.
+        public Chambre ObtenirChambreLaPlusReservee()
+        {
+            int[] nbReservations = new int[Chambres.Length];
+            Chambre chambrePopulaire = null;
 
+            for (int i = 0; i < Reservations.Length; i++)
+            {
+                for (int j = 0; j < Chambres.Length; j++)
+                {
+                    if (Reservations[i].Chambre.Numero == Chambres[j].Numero)
+                    {
+                        nbReservations[j]++;
+                    }
+                }
+            }
+
+            for (int i = 0; i < nbReservations.Length; i++)
+            {
+                if (nbReservations[i] == nbReservations.Max())
+                {
+                    chambrePopulaire = Chambres[i];
+                }
+            }
+
+            return chambrePopulaire;
+        }
 
         #endregion
     }
 }
-
 
     

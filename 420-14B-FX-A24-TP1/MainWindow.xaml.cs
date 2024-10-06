@@ -51,6 +51,9 @@ namespace _420_14B_FX_A24_TP1
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _gestionHotel = new GestionHotel(CHEMIN_FICHIER_CHAMBRES, CHEMIN_FICHIER_RESERVATIONS);
+            txtTotalReservations.Text = $"{_gestionHotel.CalculerMontantTotalReservations():C}";
+            txtPrixMoyenReservation.Text = $"{_gestionHotel.CalculerPrixMoyenReservation():C}";
+            txtChambrePlusReservee.Text = Convert.ToString(_gestionHotel.ObtenirChambreLaPlusReservee().Numero);           
         }
 
         private void AfficherListeChambres()
