@@ -135,8 +135,6 @@ namespace _420_14B_FX_A24_TP1.classes
         {
             Chambre[] chambresDispo = new Chambre[1];
 
-            bool dispo = true;
-
             for (int i = 0; i < Chambres.Length; i++)
             {
                 for (int j = 0; j < Reservations.Length; j++)
@@ -150,7 +148,15 @@ namespace _420_14B_FX_A24_TP1.classes
                     }
                 }
             }
-            return chambresDispo;
+
+            Chambre[] chambresDispo2 = new Chambre[chambresDispo.Length - 1];
+
+            for (int i = 0; i < chambresDispo.Length - 1; i++)
+            {
+                chambresDispo2[i] = chambresDispo[i + 1];
+            }
+
+            return chambresDispo2;
         }
 
         /// <summary>
