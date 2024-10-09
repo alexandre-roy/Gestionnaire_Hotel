@@ -41,6 +41,8 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Constructeur de GestionHotel.
         /// </summary>
+        /// <param name="cheminFichierChambres"> Le chemin d'accès du fichier de chambres. </param>
+        /// <param name="cheminFichierReservations"> Le chemin d'accès du fichier de réservations. </param>
         public GestionHotel(string cheminFichierChambres, string cheminFichierReservations)
         {
             ChargerChambres(cheminFichierChambres);
@@ -54,6 +56,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet de charger les chambres à partir du chemin d'accès du fichier passé en paramètre. 
         /// </summary>
+        /// <param name="cheminFichierChambres"> Le chemin d'accès du fichier. </param>
         public void ChargerChambres(string cheminFichierChambres)
         {
             string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierChambres);
@@ -77,9 +80,8 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         ///  Permet d’obtenir une chambre dans la liste des chambres à partir de son numéro.
         ///  </summary>
-        /// <returns>
-        /// Une chambre.
-        /// </returns> 
+        ///  <param name="numero"> Un numéro de chambre. </param>
+        /// <returns> Une chambre. </returns> 
         public Chambre ObtenirChambre(ushort numero)
         {
             for (int i = 0; i < Chambres.Length; i++)
@@ -95,6 +97,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet de charger les réservations à partir du chemin d'accès du fichier passé en paramètre.
         /// </summary>
+        /// <param name="cheminFichierReservations"> Le chemin d'accès du fichier. </param>
         public void ChargerReservations(string cheminFichierReservations)
         {
             string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierReservations);
@@ -125,12 +128,12 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’obtenir les chambres disponibles (i.e. qui n’ont pas de réservation) selon la date d’arrivée et la date de départ.
         /// </summary>
-        /// <returns>
-        /// Un vecteur des chambres disponibles.
-        /// </returns>
+        /// <param name="dateArrivee"> Une date d'arrivée. </param>
+        /// <param name="dateDepart"> Une date de départ. </param>
+        /// <returns> Un vecteur des chambres disponibles. </returns>
         public Chambre[] RechercherChambresDisponibles(DateOnly dateArrivee, DateOnly dateDepart)
         {
-            Chambre[] chambresDispo = new Chambre[Chambres.Length];
+            Chambre[] chambresDispo = new Chambre[1];
 
             bool dispo = true;
 
@@ -140,21 +143,12 @@ namespace _420_14B_FX_A24_TP1.classes
                 {
                     if (Chambres[i].Numero == Reservations[j].Chambre.Numero)
                     {
-                        if (dateArrivee < Reservations[j].DateDepart && dateDepart > Reservations[j].DateArrivee)
+                        if (!(dateArrivee < Reservations[j].DateDepart && dateDepart > Reservations[j].DateArrivee))
                         {
-                            dispo = false;
+                            chambresDispo = AjouterChambre(Chambres[i], chambresDispo);
                         }
-                        else
-                        {
-                            dispo = true;
-                        }
-                    }
-                    if (dispo)
-                    {
-                        chambresDispo[i] = Chambres[i];
                     }
                 }
-
             }
             return chambresDispo;
         }
@@ -162,9 +156,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’ajouter une chambre à un vecteur de chambres reçu en paramètre.
         /// </summary>
-        /// <returns>
-        /// Un vecteur de chambres avec une chambre ajouté a la fin.
-        /// </returns>
+        /// <param name="chambre"> Une chambre. </param>
+        /// <param name="vectChambres"> Un vecteur de chambres. </param>
+        /// <returns> Un vecteur de chambres avec une chambre ajouté a la fin. </returns>
         private Chambre[] AjouterChambre(Chambre chambre, Chambre[] vectChambres)
         {
             Chambre[] chambre1 = new Chambre[vectChambres.Length + 1];
@@ -182,9 +176,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’ajouter la réservation au vecteur de réservations reçu en paramètre.
         /// </summary>
-        /// <returns>
-        /// Un vecteur de réservations avec une réservation ajouté à la fin.
-        /// </returns>
+        /// <param name="reservation"> Une réservation. </param>
+        /// <param name="reservations"> Un vecteur de réservations. </param>
+        /// <returns> Un vecteur de réservations avec une réservation ajouté à la fin. </returns>
         private Reservation[] AjouterReservation(Reservation reservation, Reservation[] reservations)
         {
             Reservation[] reservation1 = new Reservation[reservations.Length + 1];
@@ -202,6 +196,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         ///  Permet d’ajouter une nouvelle réservation aux réservations existantes.
         /// </summary>
+        /// <param name="reservation"> Une réservation. </param>
         public void CreerReservation(Reservation reservation)
         {
             Reservations = AjouterReservation(reservation, Reservations);
@@ -210,9 +205,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Recherche des réservations par courriel ou téléphone, et retourne les réservations correspondantes.
         /// </summary>
-        /// <returns>
-        /// Un vecteur de réservations qui correspondent avec les paramètres.
-        /// </returns>
+        /// <param name="courriel"> Adresse courriel. </param>
+        /// <param name="telephone"> Numéro de téléphone. </param>
+        /// <returns> Un vecteur de réservations qui correspondent avec les paramètres. </returns>
         public Reservation[] RechercherReservations(string courriel, string telephone)
         {
             Reservation[] listeFiltre = new Reservation[Reservations.Length];
@@ -241,6 +236,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         ///  Supprime la réservation reçue en paramètres des réservations existantes.
         /// </summary>
+        /// <param name="reservation"> Une réservation. </param>
         public void SupprimerReservation(Reservation reservation)
         {
             Reservation[] nouvellesReservations = new Reservation[Reservations.Length - 1];
@@ -260,9 +256,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’obtenir le montant total de toutes les réservations.
         /// </summary>
-        /// <returns>
-        /// Un decimal qui représente le montant total des réservations.
-        /// </returns>
+        /// <returns> Un decimal qui représente le montant total des réservations. </returns>
         public decimal CalculerMontantTotalReservations()
         {
             decimal montantTotal = 0;
@@ -277,9 +271,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’obtenir le prix moyen d’une réservation.
         /// </summary>
-        /// <returns>
-        /// Un decimal qui représente le prix moyen des réservations.
-        /// </returns>
+        /// <returns> Un decimal qui représente le prix moyen des réservations. </returns>
         public decimal CalculerPrixMoyenReservation()
         {
             decimal montantTotal = CalculerMontantTotalReservations();
@@ -293,9 +285,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’obtenir la chambre ayant eu le plus de réservations.
         /// </summary>
-        /// <returns>
-        /// La chambre avec le plus de réservations.
-        /// </returns>
+        /// <returns> La chambre avec le plus de réservations. </returns>
         public Chambre ObtenirChambreLaPlusReservee()
         {
             int[] nbReservations = new int[Chambres.Length];
@@ -326,6 +316,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet l’enregistrement des réservations en format CSV 
         /// </summary>
+        /// <param name="cheminFichier"> Chemin d'accès au fichier. </param>
         public void EnregistrerReservation(string cheminFichier)
         {
             string donnees = null;

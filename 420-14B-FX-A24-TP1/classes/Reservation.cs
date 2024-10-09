@@ -87,7 +87,7 @@
             get { return _courriel; }
             set
             {
-                if (!string.IsNullOrWhiteSpace(value) && ContiensCaractere(value, COURRIEL_CAR_OBLIGATOIRE))
+                if (!string.IsNullOrWhiteSpace(value) && !value.Contains(COURRIEL_CAR_OBLIGATOIRE))
                 {
                     _courriel = value;
                 }
@@ -150,7 +150,7 @@
             get { return _telephone; }
             set
             {
-                if (!string.IsNullOrWhiteSpace(value) && ContiensCaractere(value, TELEPHONE_CAR_OBLIGATOIRE))
+                if (!string.IsNullOrWhiteSpace(value) && !value.Contains(TELEPHONE_CAR_OBLIGATOIRE))
                 {
                     _telephone = value;
                 }
@@ -189,6 +189,14 @@
         /// <summary>
         /// Inistialise une nouvelle instance de la classe Reservation.
         /// </summary>
+        /// <param name="adresse"> Adresse du client. </param>
+        /// <param name="chambre"> Chambre associé a la réservation. </param>
+        /// <param name="courriel"> Adresse courriel du client. </param>
+        /// <param name="dateArrivee"> Date d'arrivée du séjour du client. </param>
+        /// <param name="dateDepart"> Date de départ du séjour du client. </param>
+        /// <param name="nom"> Nom de famille du client. </param>
+        /// <param name="prenom"> Prénom du client. </param>
+        /// <param name="telephone"> Numéro de téléphone du client. </param>
         public Reservation(string adresse, Chambre chambre, string courriel, DateOnly dateArrivee, DateOnly dateDepart, string nom, string prenom, string telephone)
         {
             Adresse = adresse;
@@ -208,9 +216,7 @@
         /// <summary>
         /// Permet de calculer le montant du sous-total de la réservation.
         /// </summary>
-        /// <returns>
-        /// Une décimal représentant le montant du sous-total de la réservation.
-        /// </returns>
+        /// <returns> Une décimal représentant le montant du sous-total de la réservation. </returns>
         private decimal CalculerSousTotal()
         {
             int nombreDeNuits = (int)(DateDepart.ToDateTime(TimeOnly.MinValue) - DateArrivee.ToDateTime(TimeOnly.MinValue)).TotalDays;
@@ -221,9 +227,7 @@
         /// <summary>
         /// Permet de calculer le montant total de la réservation incluant les taxes.
         /// </summary>
-        /// <returns>
-        /// Une décimal représentant le montant du total de la réservation.
-        /// </returns>
+        /// <returns> Une décimal représentant le montant du total de la réservation. </returns>
         private decimal CalculerTotal()
         {
             decimal taxes = 0.15M;
@@ -231,29 +235,9 @@
         }
 
         /// <summary>
-        /// S'assure qu'une chaine de caractères ne contient pas un certain caractère.
-        /// </summary>
-        /// <returns>
-        /// Un bool qui indique si le caractère est présent ou pas.
-        /// </returns>
-        public static bool ContiensCaractere(string chaine, string caractere)
-        {
-            for (int i = 0; i < chaine.Length; i++)
-            {
-                if (chaine[i] == char.Parse(caractere))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
         /// Une chaîne de caractères représentant l'objet Reservation.
         /// </summary>
-        /// <returns>
-        /// Une chaines de caractères représentant les informations de la réservation et du client.
-        /// </returns>
+        /// <returns> Une chaines de caractères représentant les informations de la réservation et du client. </returns>
         public override string ToString()
         {
             string nomPrenomPadRight = $"{Nom}, {Prenom}".PadRight(21, ' ');

@@ -78,6 +78,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Initialise une nouvelle instance de la classe Chambre.
         /// </summary>
+        /// <param name="numero"> Numéro de la chambre. </param>
+        /// <param name="prixParNuit"> Prix par nuit de la chamrbe. </param>
+        /// <param name="type"> Type de la chambre. </param>
         public Chambre(ushort numero, decimal prixParNuit, TypeChambre type)
         {
             Numero = numero;
@@ -92,9 +95,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Retourne une chaîne de caractères représentant l'objet Chambre.
         /// </summary>
-        /// <returns>
-        /// Une chaîne de caractères représentant les informations de la chambre.
-        /// </returns>
+        /// <returns> Une chaîne de caractères représentant les informations de la chambre. </returns>
         public override string ToString()
         {
             string numeroPadRight = $"{Numero}".PadRight(11, ' ');

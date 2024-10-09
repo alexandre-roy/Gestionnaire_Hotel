@@ -41,6 +41,10 @@ namespace _420_14B_FX_A24_TP1
         #endregion
 
         #region MÉTHODES
+
+        /// <summary>
+        /// Évenements au début du chargement du formulaire.
+        /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _gestionHotel = new GestionHotel(CHEMIN_FICHIER_CHAMBRES, CHEMIN_FICHIER_RESERVATIONS);
@@ -53,13 +57,16 @@ namespace _420_14B_FX_A24_TP1
         /// <summary>
         /// Affiche la liste des chambres dans la listbox.
         /// </summary>
-        private void AfficherListeChambres()
+        private void AfficherListeChambres(Chambre[] chambres)
         {
             lstChambres.Items.Clear();
 
-            for (int i = 0; i < _gestionHotel.Chambres.Length; i++)
+            for (int i = 0; i < chambres.Length; i++)
             {
-                lstChambres.Items.Add(_gestionHotel.Chambres[i]);
+                if (chambres[i] != null)
+                {
+                    lstChambres.Items.Add(chambres[i]);
+                }              
             }
         }
 
@@ -98,7 +105,7 @@ namespace _420_14B_FX_A24_TP1
                 messageErreur += $"Vous devez inscrire le courriel du client.\n";
             }
 
-            if (!string.IsNullOrWhiteSpace(txtCourriel.Text) && (!Reservation.ContiensCaractere(txtCourriel.Text, Reservation.COURRIEL_CAR_OBLIGATOIRE)))
+            if (!string.IsNullOrWhiteSpace(txtCourriel.Text) && (!txtCourriel.Text.Contains(Reservation.COURRIEL_CAR_OBLIGATOIRE)))
             {
                 messageErreur += $"Le courriel doint contenir un '@'.\n";
             }
@@ -110,7 +117,7 @@ namespace _420_14B_FX_A24_TP1
 
             string telephone = txtTelephone.Text.Replace("-", "");
 
-            if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && (!Reservation.ContiensCaractere(txtTelephone.Text, Reservation.TELEPHONE_CAR_OBLIGATOIRE)))
+            if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && (!txtTelephone.Text.Contains(Reservation.TELEPHONE_CAR_OBLIGATOIRE)))
             {
                 messageErreur += $"Le numéro de téléphone doit contenir au moins un '-'.\n";
             }
@@ -160,13 +167,7 @@ namespace _420_14B_FX_A24_TP1
 
             lstChambres.Items.Clear();
 
-            for (int i = 0; i < chambresDisponibles.Length; i++)
-            {
-                if (chambresDisponibles[i] != null)
-                {
-                    lstChambres.Items.Add(chambresDisponibles[i]);
-                }
-            }
+            AfficherListeChambres(chambresDisponibles);           
         }
 
         /// <summary>
@@ -174,37 +175,24 @@ namespace _420_14B_FX_A24_TP1
         /// </summary>
         private void lstChambres_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(!dtpDateArrivee.SelectedDate.HasValue || !dtpDateDepart.SelectedDate.HasValue)
-            {
-                MessageBox.Show("Vous devez sélectionner une date d'arrivée et une date de départ.", "Sélection de dates");
-                return;
-            }
-            if(dtpDateArrivee.SelectedDate.Value >= dtpDateDepart.SelectedDate.Value)
-            {
-                MessageBox.Show("La date d'arrivée doit être antérieure à la date de départ.", "Sélection de dates");
-                return;
-            }
-
             Chambre chambreSelectionnee = (Chambre)lstChambres.SelectedItem;
 
-            if (chambreSelectionnee == null)
+            if (chambreSelectionnee != null)
             {
-                return;
-            }
+                txtNumero.Text = Convert.ToString(chambreSelectionnee.Numero);
+                txtType.Text = Convert.ToString(chambreSelectionnee.Type);
+                txtDateArrivee.Text = dtpDateArrivee.SelectedDate.Value.ToShortDateString();
+                txtDateDepart.Text = dtpDateDepart.SelectedDate.Value.ToShortDateString();
+                txtPrixParNuit.Text = Convert.ToString(chambreSelectionnee.PrixParNuit);
 
-            txtNumero.Text = Convert.ToString(chambreSelectionnee.Numero);
-            txtType.Text = Convert.ToString(chambreSelectionnee.Type);
-            txtDateArrivee.Text = dtpDateArrivee.SelectedDate.Value.ToShortDateString();
-            txtDateDepart.Text = dtpDateDepart.SelectedDate.Value.ToShortDateString();
-            txtPrixParNuit.Text = Convert.ToString(chambreSelectionnee.PrixParNuit);
+                DateTime dateArrivee = DateTime.Parse(txtDateArrivee.Text);
+                DateTime dateDepart = DateTime.Parse(txtDateDepart.Text);
+                int nbJours = (dateDepart - dateArrivee).Days;
+                decimal sousTotal = (nbJours * decimal.Parse(txtPrixParNuit.Text));
+                decimal total = sousTotal + (sousTotal * 0.15M);
 
-            DateTime dateArrivee = DateTime.Parse(txtDateArrivee.Text);
-            DateTime dateDepart = DateTime.Parse(txtDateDepart.Text);
-            int nbJours = (dateDepart - dateArrivee).Days;
-            decimal sousTotal = (nbJours * decimal.Parse(txtPrixParNuit.Text));
-            decimal total = sousTotal + (sousTotal * 0.15M);
-
-            txtTotal.Text = $"{total:C}";
+                txtTotal.Text = $"{total:C}";
+            }         
         }
 
         /// <summary>
