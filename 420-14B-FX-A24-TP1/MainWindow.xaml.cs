@@ -1,15 +1,5 @@
-﻿using System.IO;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using _420_14B_FX_A23_TP1.classes;
 using _420_14B_FX_A24_TP1.classes;
 
 namespace _420_14B_FX_A24_TP1
@@ -21,8 +11,14 @@ namespace _420_14B_FX_A24_TP1
     {
         #region CONSTANTES
 
+        /// <summary>
+        /// Le chemin d'accès pour accèder au fichier des chambres.
+        /// </summary>
         public const string CHEMIN_FICHIER_CHAMBRES = @"C:\data\420-14B-FX\TP1\chambres.csv";
 
+        /// <summary>
+        /// Le chemin d'accès pour accèder au fichier des réservations.
+        /// </summary>
         public const string CHEMIN_FICHIER_RESERVATIONS = @"C:\data\420-14B-FX\TP1\reservations.csv";
 
         #endregion
@@ -48,11 +44,15 @@ namespace _420_14B_FX_A24_TP1
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _gestionHotel = new GestionHotel(CHEMIN_FICHIER_CHAMBRES, CHEMIN_FICHIER_RESERVATIONS);
+
             txtTotalReservations.Text = $"{_gestionHotel.CalculerMontantTotalReservations():C}";
             txtPrixMoyenReservation.Text = $"{_gestionHotel.CalculerPrixMoyenReservation():C}";
             txtChambrePlusReservee.Text = Convert.ToString(_gestionHotel.ObtenirChambreLaPlusReservee().Numero);           
         }
 
+        /// <summary>
+        /// Affiche la liste des chambres dans la listbox.
+        /// </summary>
         private void AfficherListeChambres()
         {
             lstChambres.Items.Clear();
@@ -63,6 +63,9 @@ namespace _420_14B_FX_A24_TP1
             }
         }
 
+        /// <summary>
+        /// Affiche la liste des réservations dans la listbox.
+        /// </summary>
         private void AfficherListeReservations()
         {
             lstReservations.Items.Clear();
@@ -73,6 +76,9 @@ namespace _420_14B_FX_A24_TP1
             }
         }
 
+        /// <summary>
+        /// Valide les champs d'entrés du formulaire.
+        /// </summary>
         private string ValiderFormulaire()
         {
             string messageErreur = "";
@@ -92,7 +98,7 @@ namespace _420_14B_FX_A24_TP1
                 messageErreur += $"Vous devez inscrire le courriel du client.\n";
             }
 
-            if (!string.IsNullOrWhiteSpace(txtCourriel.Text) && !txtCourriel.Text.Contains(Reservation.COURRIEL_CAR_OBLIGATOIRE))
+            if (!string.IsNullOrWhiteSpace(txtCourriel.Text) && (!Reservation.ContiensCaractere(txtCourriel.Text, Reservation.COURRIEL_CAR_OBLIGATOIRE)))
             {
                 messageErreur += $"Le courriel doint contenir un '@'.\n";
             }
@@ -102,7 +108,9 @@ namespace _420_14B_FX_A24_TP1
                 messageErreur += $"Vous devez inscrire le numéro de téléphone du client.\n";
             }
 
-            if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && !txtTelephone.Text.Contains(Reservation.TELEPHONE_CAR_OBLIGATOIRE))
+            string telephone = txtTelephone.Text.Replace("-", "");
+
+            if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && (!Reservation.ContiensCaractere(txtTelephone.Text, Reservation.TELEPHONE_CAR_OBLIGATOIRE)))
             {
                 messageErreur += $"Le numéro de téléphone doit contenir au moins un '-'.\n";
             }

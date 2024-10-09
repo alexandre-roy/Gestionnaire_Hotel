@@ -1,9 +1,7 @@
-﻿using System.Windows.Controls;
-using _420_14B_FX_A24_TP1.enums;
+﻿using _420_14B_FX_A24_TP1.enums;
 
 namespace _420_14B_FX_A24_TP1.classes
-{
-    
+{   
     /// <summary>
     /// Représente une chambre dans le système de gestion d'un hôtel.
     /// </summary>
@@ -11,9 +9,19 @@ namespace _420_14B_FX_A24_TP1.classes
     {
         #region ATTRIBUTS
 
-        // Champs privés
+        /// <summary>
+        /// Le numéro de la chambre.
+        /// </summary>
         private ushort _numero;
+
+        /// <summary>
+        /// Le pris pour chaque nuit qu'on réserve cette chammbre.
+        /// </summary>
         private decimal _prixParNuit;
+
+        /// <summary>
+        /// Le type de la chambre
+        /// </summary>
         private TypeChambre _type;
 
         #endregion
@@ -68,7 +76,7 @@ namespace _420_14B_FX_A24_TP1.classes
         #region CONSTRUCTEUR
 
         /// <summary>
-        /// Initialise une nouvelle instance de la classe Chambre/>.
+        /// Initialise une nouvelle instance de la classe Chambre.
         /// </summary>
         public Chambre(ushort numero, decimal prixParNuit, TypeChambre type)
         {

@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualBasic;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace _420_14B_FX_A24_TP1.classes
+﻿namespace _420_14B_FX_A24_TP1.classes
 {
     /// <summary>
     /// Représente une réservation dans le système de gestion d'un hôtel.
@@ -16,21 +7,58 @@ namespace _420_14B_FX_A24_TP1.classes
     {
         #region CONSTANTES
 
+        /// <summary>
+        /// Caractère obligatoire pour le courriel.
+        /// </summary>
         public const string COURRIEL_CAR_OBLIGATOIRE = "@";
+
+        /// <summary>
+        /// Caractère obligatoire pour le téléphone.
+        /// </summary>
         public const string TELEPHONE_CAR_OBLIGATOIRE = "-";
 
         #endregion
 
         #region ATTRIBUTS
 
-        // Champs privés
+        /// <summary>
+        /// L'adresse du client.
+        /// </summary>
         private string _adresse;
+
+        /// <summary>
+        /// La chambre associé a la réservation.
+        /// </summary>
         private Chambre _chambre;
+
+        /// <summary>
+        /// L'adresse courriel du client.
+        /// </summary>
         private string _courriel;
+
+        /// <summary>
+        /// La date d'arrivée du séjour du client.
+        /// </summary>
         private DateOnly _dateArrivee;
+
+        /// <summary>
+        /// La date de départ du séjour du client.
+        /// </summary>
         private DateOnly _dateDepart;
+
+        /// <summary>
+        /// Le nom de famille du client.
+        /// </summary>
         private string _nom;
+
+        /// <summary>
+        /// Le prénom du client.
+        /// </summary>
         private string _prenom;
+
+        /// <summary>
+        /// Le numéro de téléphone du client.
+        /// </summary>
         private string _telephone;
 
         #endregion
@@ -59,7 +87,7 @@ namespace _420_14B_FX_A24_TP1.classes
             get { return _courriel; }
             set
             {
-                if (!string.IsNullOrWhiteSpace(value) && value.Contains(COURRIEL_CAR_OBLIGATOIRE))
+                if (!string.IsNullOrWhiteSpace(value) && ContiensCaractere(value, COURRIEL_CAR_OBLIGATOIRE))
                 {
                     _courriel = value;
                 }
@@ -122,7 +150,7 @@ namespace _420_14B_FX_A24_TP1.classes
             get { return _telephone; }
             set
             {
-                if (!string.IsNullOrWhiteSpace(value) && value.Contains(TELEPHONE_CAR_OBLIGATOIRE))
+                if (!string.IsNullOrWhiteSpace(value) && ContiensCaractere(value, TELEPHONE_CAR_OBLIGATOIRE))
                 {
                     _telephone = value;
                 }
@@ -159,7 +187,7 @@ namespace _420_14B_FX_A24_TP1.classes
         #region CONSTRUCTEUR
 
         /// <summary>
-        /// Constructeur de la classe Reservation.
+        /// Inistialise une nouvelle instance de la classe Reservation.
         /// </summary>
         public Reservation(string adresse, Chambre chambre, string courriel, DateOnly dateArrivee, DateOnly dateDepart, string nom, string prenom, string telephone)
         {
@@ -203,6 +231,24 @@ namespace _420_14B_FX_A24_TP1.classes
         }
 
         /// <summary>
+        /// S'assure qu'une chaine de caractères ne contient pas un certain caractère.
+        /// </summary>
+        /// <returns>
+        /// Un bool qui indique si le caractère est présent ou pas.
+        /// </returns>
+        public static bool ContiensCaractere(string chaine, string caractere)
+        {
+            for (int i = 0; i < chaine.Length; i++)
+            {
+                if (chaine[i] == char.Parse(caractere))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Une chaîne de caractères représentant l'objet Reservation.
         /// </summary>
         /// <returns>
@@ -219,7 +265,7 @@ namespace _420_14B_FX_A24_TP1.classes
 
             return $"{nomPrenomPadRight}{chambrePadRight}{arriveePadRight}{departPadRight}{telephonePadRight}{courrielPadRight}{Total:C}";
         }
-        
+     
         #endregion
     }
 }

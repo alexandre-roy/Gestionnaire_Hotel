@@ -1,19 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.Arm;
-using System.Runtime.Intrinsics.X86;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using _420_14B_FX_A23_TP1.classes;
+﻿using _420_14B_FX_A23_TP1.classes;
 using _420_14B_FX_A24_TP1.enums;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace _420_14B_FX_A24_TP1.classes
 {
@@ -68,7 +54,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet de charger les chambres à partir du chemin d'accès du fichier passé en paramètre. 
         /// </summary>
-        private void ChargerChambres(string cheminFichierChambres)
+        public void ChargerChambres(string cheminFichierChambres)
         {
             string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierChambres);
 
@@ -91,6 +77,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         ///  Permet d’obtenir une chambre dans la liste des chambres à partir de son numéro.
         ///  </summary>
+        /// <returns>
+        /// Une chambre.
+        /// </returns> 
         public Chambre ObtenirChambre(ushort numero)
         {
             for (int i = 0; i < Chambres.Length; i++)
@@ -106,7 +95,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet de charger les réservations à partir du chemin d'accès du fichier passé en paramètre.
         /// </summary>
-        private void ChargerReservations(string cheminFichierReservations)
+        public void ChargerReservations(string cheminFichierReservations)
         {
             string[] vectLignes = Utilitaire.ChargerDonnees(cheminFichierReservations);
 
@@ -136,6 +125,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’obtenir les chambres disponibles (i.e. qui n’ont pas de réservation) selon la date d’arrivée et la date de départ.
         /// </summary>
+        /// <returns>
+        /// Un vecteur des chambres disponibles.
+        /// </returns>
         public Chambre[] RechercherChambresDisponibles(DateOnly dateArrivee, DateOnly dateDepart)
         {
             Chambre[] chambresDispo = new Chambre[Chambres.Length];
@@ -170,6 +162,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’ajouter une chambre à un vecteur de chambres reçu en paramètre.
         /// </summary>
+        /// <returns>
+        /// Un vecteur de chambres avec une chambre ajouté a la fin.
+        /// </returns>
         private Chambre[] AjouterChambre(Chambre chambre, Chambre[] vectChambres)
         {
             Chambre[] chambre1 = new Chambre[vectChambres.Length + 1];
@@ -187,6 +182,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’ajouter la réservation au vecteur de réservations reçu en paramètre.
         /// </summary>
+        /// <returns>
+        /// Un vecteur de réservations avec une réservation ajouté à la fin.
+        /// </returns>
         private Reservation[] AjouterReservation(Reservation reservation, Reservation[] reservations)
         {
             Reservation[] reservation1 = new Reservation[reservations.Length + 1];
@@ -212,6 +210,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Recherche des réservations par courriel ou téléphone, et retourne les réservations correspondantes.
         /// </summary>
+        /// <returns>
+        /// Un vecteur de réservations qui correspondent avec les paramètres.
+        /// </returns>
         public Reservation[] RechercherReservations(string courriel, string telephone)
         {
             Reservation[] listeFiltre = new Reservation[Reservations.Length];
@@ -259,6 +260,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’obtenir le montant total de toutes les réservations.
         /// </summary>
+        /// <returns>
+        /// Un decimal qui représente le montant total des réservations.
+        /// </returns>
         public decimal CalculerMontantTotalReservations()
         {
             decimal montantTotal = 0;
@@ -273,6 +277,9 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <summary>
         /// Permet d’obtenir le prix moyen d’une réservation.
         /// </summary>
+        /// <returns>
+        /// Un decimal qui représente le prix moyen des réservations.
+        /// </returns>
         public decimal CalculerPrixMoyenReservation()
         {
             decimal montantTotal = CalculerMontantTotalReservations();
@@ -285,6 +292,10 @@ namespace _420_14B_FX_A24_TP1.classes
 
         /// <summary>
         /// Permet d’obtenir la chambre ayant eu le plus de réservations.
+        /// </summary>
+        /// <returns>
+        /// La chambre avec le plus de réservations.
+        /// </returns>
         public Chambre ObtenirChambreLaPlusReservee()
         {
             int[] nbReservations = new int[Chambres.Length];
