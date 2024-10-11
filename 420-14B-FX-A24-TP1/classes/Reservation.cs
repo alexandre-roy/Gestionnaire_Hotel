@@ -87,7 +87,7 @@
             get { return _courriel; }
             set
             {
-                if (!string.IsNullOrWhiteSpace(value) && !value.Contains(COURRIEL_CAR_OBLIGATOIRE))
+                if (!string.IsNullOrWhiteSpace(value) && value.Contains(COURRIEL_CAR_OBLIGATOIRE) && value.Length >= 3)
                 {
                     _courriel = value;
                 }
@@ -150,7 +150,7 @@
             get { return _telephone; }
             set
             {
-                if (!string.IsNullOrWhiteSpace(value) && !value.Contains(TELEPHONE_CAR_OBLIGATOIRE))
+                if (!string.IsNullOrWhiteSpace(value) && value.Contains(TELEPHONE_CAR_OBLIGATOIRE) && value.Replace("-","").Length == 10 && long.TryParse(value, out _))
                 {
                     _telephone = value;
                 }

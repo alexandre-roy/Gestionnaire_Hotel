@@ -216,27 +216,33 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <returns> Un vecteur de réservations qui correspondent avec les paramètres. </returns>
         public Reservation[] RechercherReservations(string courriel, string telephone)
         {
-            Reservation[] listeFiltre = new Reservation[Reservations.Length];
+            Reservation[] listeFiltre = new Reservation[1];
 
             if (courriel == "" && telephone == "")
             {
-                for (int i = 0; i < Reservations.Length; i++)
-                {
-                    listeFiltre[i] = Reservations[i];
-                }
+                return Reservations;
             }
+
             else if (telephone != "" || courriel != "")
             {
                 for (int i = 0; i < Reservations.Length; i++)
                 {
                     if (Reservations[i].Courriel == courriel || Reservations[i].Telephone == telephone)
-                    {
-                        listeFiltre[i] = Reservations[i];
+                    {               
+                        listeFiltre = AjouterReservation(Reservations[i], listeFiltre);
                     }
                 }
             }
 
-            return listeFiltre;
+            Reservation[] listeFiltre2 = new Reservation[listeFiltre.Length - 1];
+
+            for (int i = 0; i < listeFiltre.Length - 1; i++)
+            {
+                listeFiltre2[i] = listeFiltre[i + 1];
+            }
+
+            return listeFiltre2;
+
         }
 
         /// <summary>

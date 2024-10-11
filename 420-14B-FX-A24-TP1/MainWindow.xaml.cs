@@ -105,10 +105,15 @@ namespace _420_14B_FX_A24_TP1
                 messageErreur += $"Vous devez inscrire le courriel du client.\n";
             }
 
+            if (!string.IsNullOrWhiteSpace(txtCourriel.Text) && (txtCourriel.Text.Length < 3))
+            {
+                messageErreur += $"Le courriel doit contenir au moins 3 caractères.\n";
+            }
+
             if (!string.IsNullOrWhiteSpace(txtCourriel.Text) && (!txtCourriel.Text.Contains(Reservation.COURRIEL_CAR_OBLIGATOIRE)))
             {
-                messageErreur += $"Le courriel doint contenir un '@'.\n";
-            }
+                messageErreur += $"Le courriel doit contenir un '@'.\n";
+            }  
 
             if (string.IsNullOrWhiteSpace(txtTelephone.Text))
             {
@@ -117,9 +122,19 @@ namespace _420_14B_FX_A24_TP1
 
             string telephone = txtTelephone.Text.Replace("-", "");
 
+            if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && (telephone.Length != 10))
+            {
+                messageErreur += $"Le numéro de téléphone doit contenir 10 chiffres.\n";
+            }
+
             if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && (!txtTelephone.Text.Contains(Reservation.TELEPHONE_CAR_OBLIGATOIRE)))
             {
                 messageErreur += $"Le numéro de téléphone doit contenir au moins un '-'.\n";
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && !long.TryParse(telephone, out _))
+            {
+                messageErreur += $"Le numéro de téléphone ne doit pas contenir de lettres.\n";
             }
 
             if (string.IsNullOrWhiteSpace(txtAdresse.Text))
@@ -177,22 +192,24 @@ namespace _420_14B_FX_A24_TP1
         {
             Chambre chambreSelectionnee = (Chambre)lstChambres.SelectedItem;
 
-            if (chambreSelectionnee != null)
+            if (lstChambres.SelectedItem != null)
             {
+
                 txtNumero.Text = Convert.ToString(chambreSelectionnee.Numero);
                 txtType.Text = Convert.ToString(chambreSelectionnee.Type);
                 txtDateArrivee.Text = dtpDateArrivee.SelectedDate.Value.ToShortDateString();
                 txtDateDepart.Text = dtpDateDepart.SelectedDate.Value.ToShortDateString();
-                txtPrixParNuit.Text = Convert.ToString(chambreSelectionnee.PrixParNuit);
+                txtPrixParNuit.Text = $"{chambreSelectionnee.PrixParNuit:C}";
 
                 DateTime dateArrivee = DateTime.Parse(txtDateArrivee.Text);
                 DateTime dateDepart = DateTime.Parse(txtDateDepart.Text);
                 int nbJours = (dateDepart - dateArrivee).Days;
-                decimal sousTotal = (nbJours * decimal.Parse(txtPrixParNuit.Text));
+                decimal sousTotal = nbJours * chambreSelectionnee.PrixParNuit;
                 decimal total = sousTotal + (sousTotal * 0.15M);
 
                 txtTotal.Text = $"{total:C}";
-            }         
+
+            }
         }
 
         /// <summary>
@@ -261,8 +278,6 @@ namespace _420_14B_FX_A24_TP1
                 _gestionHotel.EnregistrerReservation(CHEMIN_FICHIER_RESERVATIONS);
 
                 MessageBox.Show("La réservation a été créée avec succès!", "Création d'une réservation");
-
-                lstChambres.Items.Clear();
             }
             
             else
@@ -276,7 +291,6 @@ namespace _420_14B_FX_A24_TP1
         /// </summary>
         private void btnEffacerRechercheReservation_Click(object sender, RoutedEventArgs e)
         {
-            lstReservations.Items.Clear();
             txtRechercheCourriel.Clear();
             txtRechercheTelephone.Clear();
         }
