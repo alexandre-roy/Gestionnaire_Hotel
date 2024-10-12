@@ -3,6 +3,9 @@ using _420_14B_FX_A24_TP1.enums;
 
 namespace _420_14B_FX_A24_TP1.classes
 {
+    /// <summary>
+    /// Représente le système de gestion d'un hôtel.
+    /// </summary>
     public class GestionHotel
     {
         #region ATTRIBUTS
@@ -133,30 +136,30 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <returns> Un vecteur des chambres disponibles. </returns>
         public Chambre[] RechercherChambresDisponibles(DateOnly dateArrivee, DateOnly dateDepart)
         {
-            Chambre[] chambresDispo = new Chambre[1];
+            Chambre[] chambresDispo = new Chambre[0];
 
             for (int i = 0; i < Chambres.Length; i++)
             {
+                bool dispo = true;
+
                 for (int j = 0; j < Reservations.Length; j++)
                 {
                     if (Chambres[i].Numero == Reservations[j].Chambre.Numero)
                     {
-                        if (!(dateArrivee < Reservations[j].DateDepart && dateDepart > Reservations[j].DateArrivee))
+                        if (!(dateDepart <= Reservations[j].DateArrivee || dateArrivee >= Reservations[j].DateDepart))
                         {
-                            chambresDispo = AjouterChambre(Chambres[i], chambresDispo);
-                        }
+                            dispo = false;
+                            break;
+                        }                        
                     }
+                }
+                if (dispo)
+                {
+                    chambresDispo = AjouterChambre(Chambres[i], chambresDispo);
                 }
             }
 
-            Chambre[] chambresDispo2 = new Chambre[chambresDispo.Length - 1];
-
-            for (int i = 0; i < chambresDispo.Length - 1; i++)
-            {
-                chambresDispo2[i] = chambresDispo[i + 1];
-            }
-
-            return chambresDispo2;
+            return chambresDispo;            
         }
 
         /// <summary>
@@ -172,9 +175,9 @@ namespace _420_14B_FX_A24_TP1.classes
             for (int i = 0; i < vectChambres.Length; i++)
             {
                 chambre1[i] = vectChambres[i];
-
-                chambre1[vectChambres.Length] = chambre;
             }
+
+            chambre1[vectChambres.Length] = chambre;
 
             return chambre1;
         }
@@ -191,10 +194,10 @@ namespace _420_14B_FX_A24_TP1.classes
 
             for (int i = 0; i < reservations.Length; i++)
             {
-                reservation1[i] = reservations[i];
-
-                reservation1[reservations.Length] = reservation;
+                reservation1[i] = reservations[i];               
             }
+
+            reservation1[reservations.Length] = reservation;
 
             return reservation1;
         }
@@ -216,7 +219,7 @@ namespace _420_14B_FX_A24_TP1.classes
         /// <returns> Un vecteur de réservations qui correspondent avec les paramètres. </returns>
         public Reservation[] RechercherReservations(string courriel, string telephone)
         {
-            Reservation[] listeFiltre = new Reservation[1];
+            Reservation[] listeFiltre = new Reservation[0];
 
             if (courriel == "" && telephone == "")
             {
@@ -234,15 +237,7 @@ namespace _420_14B_FX_A24_TP1.classes
                 }
             }
 
-            Reservation[] listeFiltre2 = new Reservation[listeFiltre.Length - 1];
-
-            for (int i = 0; i < listeFiltre.Length - 1; i++)
-            {
-                listeFiltre2[i] = listeFiltre[i + 1];
-            }
-
-            return listeFiltre2;
-
+            return listeFiltre;
         }
 
         /// <summary>

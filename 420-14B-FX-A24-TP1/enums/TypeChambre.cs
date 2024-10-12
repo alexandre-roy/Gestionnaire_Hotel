@@ -1,10 +1,12 @@
 ﻿namespace _420_14B_FX_A24_TP1.enums
 {
     /// <summary>
-    /// Le type de la chambre.
-    /// </summary>
+    /// Représente le type d'une chambre dans le système de gestion d'un hôtel.
+    /// </summary>  
     public enum TypeChambre
     {
+        #region ENUMÉRATION
+
         /// <summary>
         /// Chambre de type simple.
         /// </summary>
@@ -29,5 +31,7 @@
         /// Chambre de type familiale.
         /// </summary>
         Familiale
+
+        #endregion
     }
 }

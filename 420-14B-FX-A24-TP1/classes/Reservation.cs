@@ -13,9 +13,19 @@
         public const string COURRIEL_CAR_OBLIGATOIRE = "@";
 
         /// <summary>
+        /// Nombre de caractères obligatoire pour le courriel.
+        /// </summary>
+        public const byte COURRIEL_NB_CAR_OBLIGATOIRE = 3;
+
+        /// <summary>
         /// Caractère obligatoire pour le téléphone.
         /// </summary>
         public const string TELEPHONE_CAR_OBLIGATOIRE = "-";
+
+        /// <summary>
+        /// Nombre de caractères obligatoire pour le téléphone.
+        /// </summary>
+        public const byte TELEPHONE_NB_CAR_OBLIGATOIRE = 10;
 
         #endregion
 
@@ -87,7 +97,7 @@
             get { return _courriel; }
             set
             {
-                if (!string.IsNullOrWhiteSpace(value) && value.Contains(COURRIEL_CAR_OBLIGATOIRE) && value.Length >= 3)
+                if (!string.IsNullOrWhiteSpace(value) && value.Contains(COURRIEL_CAR_OBLIGATOIRE) && value.Length >= COURRIEL_NB_CAR_OBLIGATOIRE)
                 {
                     _courriel = value;
                 }
@@ -150,7 +160,7 @@
             get { return _telephone; }
             set
             {
-                if (!string.IsNullOrWhiteSpace(value) && value.Contains(TELEPHONE_CAR_OBLIGATOIRE) && value.Replace("-","").Length == 10 && long.TryParse(value, out _))
+                if (!string.IsNullOrWhiteSpace(value) && value.Contains(TELEPHONE_CAR_OBLIGATOIRE) && value.Replace("-","").Length == TELEPHONE_NB_CAR_OBLIGATOIRE && long.TryParse(value.Replace("-", ""), out _))
                 {
                     _telephone = value;
                 }

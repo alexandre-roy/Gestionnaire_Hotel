@@ -5,7 +5,7 @@ using _420_14B_FX_A24_TP1.classes;
 namespace _420_14B_FX_A24_TP1
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Logique d'interactions avec MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -105,7 +105,7 @@ namespace _420_14B_FX_A24_TP1
                 messageErreur += $"Vous devez inscrire le courriel du client.\n";
             }
 
-            if (!string.IsNullOrWhiteSpace(txtCourriel.Text) && (txtCourriel.Text.Length < 3))
+            if (!string.IsNullOrWhiteSpace(txtCourriel.Text) && (txtCourriel.Text.Length < Reservation.COURRIEL_NB_CAR_OBLIGATOIRE))
             {
                 messageErreur += $"Le courriel doit contenir au moins 3 caractères.\n";
             }
@@ -122,7 +122,7 @@ namespace _420_14B_FX_A24_TP1
 
             string telephone = txtTelephone.Text.Replace("-", "");
 
-            if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && (telephone.Length != 10))
+            if (!string.IsNullOrWhiteSpace(txtTelephone.Text) && (telephone.Length != Reservation.TELEPHONE_NB_CAR_OBLIGATOIRE))
             {
                 messageErreur += $"Le numéro de téléphone doit contenir 10 chiffres.\n";
             }
@@ -315,17 +315,19 @@ namespace _420_14B_FX_A24_TP1
         /// </summary>
         private void btnSupprimerReservation_Click(object sender, RoutedEventArgs e)
         {
-            _gestionHotel.SupprimerReservation((Reservation)lstReservations.SelectedItem);
-            lstReservations.Items.Clear();
+            if (lstReservations.SelectedItem != null)
+            {
+                _gestionHotel.SupprimerReservation((Reservation)lstReservations.SelectedItem);
+                lstReservations.Items.Clear();
 
-            MessageBox.Show("La réservation a été supprimée avec succès!", "Suppression d'une réservation");
+                MessageBox.Show("La réservation a été supprimée avec succès!", "Suppression d'une réservation");
 
-            txtTotalReservations.Text = $"{_gestionHotel.CalculerMontantTotalReservations():C}";
-            txtPrixMoyenReservation.Text = $"{_gestionHotel.CalculerPrixMoyenReservation():C}";
-            txtChambrePlusReservee.Text = Convert.ToString(_gestionHotel.ObtenirChambreLaPlusReservee().Numero);
+                txtTotalReservations.Text = $"{_gestionHotel.CalculerMontantTotalReservations():C}";
+                txtPrixMoyenReservation.Text = $"{_gestionHotel.CalculerPrixMoyenReservation():C}";
+                txtChambrePlusReservee.Text = Convert.ToString(_gestionHotel.ObtenirChambreLaPlusReservee().Numero);
 
-            _gestionHotel.EnregistrerReservation(CHEMIN_FICHIER_RESERVATIONS);
-
+                _gestionHotel.EnregistrerReservation(CHEMIN_FICHIER_RESERVATIONS);
+            }
         }
 
         #endregion     

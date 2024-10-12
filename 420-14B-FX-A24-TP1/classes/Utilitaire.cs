@@ -2,15 +2,13 @@
 using System.IO;
 
 namespace _420_14B_FX_A23_TP1.classes
-{
-   
+{ 
     /// <summary>
     /// Classe utilitaire
     /// </summary>
     public static class Utilitaire
     {
-
-
+        #region MÉTHODES
 
         /// <summary>   
         /// Permet charger les données dans un vecteur de chaînes de caractères.
@@ -82,7 +80,7 @@ namespace _420_14B_FX_A23_TP1.classes
 
             return false;
         }
-   
 
-    }  // Fin de la classe
+        #endregion
+    }
 }
